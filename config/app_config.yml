@@ -1,0 +1,102 @@
+secret_key_base: <%= ENV['SECRET_KEY_BASE'] %>
+
+default: &default
+  qiwa_domain: "qiwa.info"
+  root_domain: 'localhost'
+  websocket_frontend_url:  <%= ENV['DEVELOPMENT_WEBSOCKET_FRONTEND_URL'] %>
+  unifonic:
+    send_sms_url:  <%= ENV['DEVELOPMENT_UNIFONIC_URL'] %>
+    app_sid:  <%= ENV['DEVELOPMENT_UNIFONIC_APP_SID'] %>
+    username:  <%= ENV['DEVELOPMENT_UNIFONIC_USERNAME'] %>
+    password:  <%= ENV['DEVELOPMENT_UNIFONIC_PASSWORD'] %>
+    sender_id:  <%= ENV['DEVELOPMENT_UNIFONIC_SENDER_ID'] %>
+  absher:
+    send_sms_url: <%= ENV['DEVELOPMENT_ABSHER_SEND_SMS_URL'] %>
+    user_verification_url: <%= ENV['DEVELOPMENT_ABSHER_USER_VERIFICATION_URL'] %>
+  takamol_payment:
+    payment_due_date_in_days: <%= ENV['DEVELOPMENT_TAKAMOL_PAYMENT_DUE_DATE_IN_DAYS'] %>
+    api_key: <%= ENV['DEVELOPMENT_TAKAMOL_PAYMENT_API_KEY'] %>
+    api_secret: <%= ENV['DEVELOPMENT_TAKAMOL_PAYMENT_API_SECRET'] %>
+    system_id: <%= ENV['DEVELOPMENT_TAKAMOL_PAYMENT_SYSTEM_ID'] %>
+    define_bill_url: <%= ENV['DEVELOPMENT_TAKAMOL_PAYMENT_DEFINE_BILL_URL'] %>
+    billing_template_id: <%= ENV['DEVELOPMENT_TAKAMOL_PAYMENT_BILLING_TEMPLATE_ID'] %>
+    item_template_id: <%= ENV['DEVELOPMENT_TAKAMOL_PAYMENT_ITEM_TEMPLATE_ID'] %>
+    username: <%= ENV['DEVELOPMENT_TAKAMOL_PAYMENT_USERNAME'] %>
+    password: <%= ENV['DEVELOPMENT_TAKAMOL_PAYMENT_PASSWORD'] %>
+  redis: &default_redis
+    host: <%= ENV['DEVELOPMENT_INSTACHAT_REDIS_HOST'] %>
+    port:  <%= ENV['DEVELOPMENT_INSTACHAT_REDIS_PORT'] %>
+    namespace: <%= ENV['DEVELOPMENT_REDIS_NAMESPACE'] %>
+    notification:
+      db: <%= ENV['DEVELOPMENT_NOTIFICATION_REDIS_DB'] %>
+    system_configuration_redis_cache:
+      db: <%= ENV['DEVELOPMENT_CONFIGURATIONS_CACHE_REDIS_DB'] %>
+    Auth_token_blacklist:
+      db: <%= ENV['DEVELOPMENT_AUTH_TOKENS_BLACKLIST_DB'] %>
+    features_flags:
+      db: <%= ENV['DEVELOPMENT_FEATURES_FLAGS_DB'] %>
+    rescue:
+      db: <%= ENV['DEVELOPMENT_INSTACHAT_REDIS_DB'] %>
+  mol_sso:
+    end_point: <%= ENV['DEVELOPMENT_MOL_SSO_ENDPOINT'] %>
+  nlg:
+    end_point: <%= ENV['DEVELOPMENT_NLG_ENDPOINT'] %>
+    user_name: <%= ENV['DEVELOPMENT_NLG_USERNAME'] %>
+    password: <%= ENV['DEVELOPMENT_NLG_PASSWORD'] %>
+
+development:
+  <<: *default
+  frontend_url:  <%= ENV['FRONTEND_DEVELOPMENT_URL'] %>
+  sms:
+    is_enabled: <%= ENV['DEVELOPMENT_SMS_ENABLED'] %>
+    logs_receiver: <%= ENV['DEVELOPMENT_SMS_LOGS_RECEIVER'] %>
+    frontend_contract_path: <%= ENV['DEVELOPMENT_SMS_FRONTEND_CONTRACT_PATH'] %>
+  sms_mailer:
+    is_enabled: <%= ENV['DEVELOPMENT_SMS_MAILER_ENABLED'] %>
+  gosi:
+    is_check_eligibility_enabled: <%= ENV['DEVELOPMENT_CHECK_ELIGIBILITY_ENABLED'] %>
+  cuttly:
+    url: <%= ENV['DEVELOPMENT_CUTTLY_URL'] %>
+    api_key: <%= ENV['DEVELOPMENT_CUTTLY_API_KEY'] %>
+  mock_company_login: <%= ENV['DEVELOPMENT_MOCK_COMPANY_LOGIN'] %>
+  update_company_data: <%= ENV['DEVELOPMENT_UPDATE_COMPANY_DATA'] %>
+  frontend:
+    login_path: <%= ENV['DEVELOPMENT_FRONTEND_LOGIN_PATH'] %>
+    registration_path: <%= ENV['DEVELOPMENT_FRONTEND_REGISTERATION_PATH'] %>
+    complete_profile_path: <%= ENV['DEVELOPMENT_FRONTEND_COMPLETE_PROFILE_PATH'] %>
+
+test:
+  <<: *default
+  redis:
+    <<: *default_redis
+    namespace: <%= ENV['TEST_REDIS_NAMESPACE'] %>
+    system_configuration_redis_cache:
+      db: <%= ENV['TEST_CONFIGURATIONS_CACHE_REDIS_DB'] %>
+    rescue:
+      db: <%= ENV['TEST_INSTACHAT_REDIS_DB'] %>
+    features_flags:
+      db: <%= ENV['TEST_FEATURES_FLAGS_DB'] %>
+
+staging:
+  <<: *default
+
+production:
+  <<: *default
+  redis:
+    host: <%= ENV['PRODUCTION_INSTACHAT_REDIS_HOST'] %>
+    master_name: <%= ENV['PRODUCTION_INSTACHAT_REDIS_MASTER_NAME'] %>
+    namespace: <%= ENV['PRODUCTION_REDIS_NAMESPACE'] %>
+    notification:
+      db: <%= ENV['PRODUCTION_NOTIFICATION_REDIS_DB'] %>
+    system_configuration_redis_cache:
+      db: <%= ENV['PRODUCTION_CONFIGURATIONS_CACHE_REDIS_DB'] %>
+    Auth_token_blacklist:
+      db: <%= ENV['PRODUCTION_AUTH_TOKENS_BLACKLIST_DB'] %>
+    rescue:
+      db: <%= ENV['PRODUCTION_INSTACHAT_REDIS_DB'] %>
+    features_flags:
+      db: <%= ENV['PRODUCTION_FEATURES_FLAGS_DB'] %>
+    sentinels:
+      - {host: mrn-redis1, port: 26379}
+      - {host: mrn-redis2, port: 26379}
+      - {host: mrn-redis3, port: 26379}

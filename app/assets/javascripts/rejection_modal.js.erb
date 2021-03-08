@@ -1,0 +1,36 @@
+$(document).ready(function () {
+    $('body').on('modal_dialog:after_open', function() {
+        $("button:contains('OK')").text("<%= I18n.t('active_admin.ok') %>");
+        $("button:contains('Cancel')").text("<%= I18n.t('active_admin.cancel') %>");
+          $('input[name="code"]').on('keypress', function(e) {
+            if (e.keyCode == 13) {
+            e.stopImmediatePropagation();
+            submit_2fa_form($(this).val());
+            $('#dialog_confirm').dialog('close').remove();
+            }
+        });
+    });
+    $('body').on('click', '#reject_service_provider', function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+        var rejection_url = $(this).attr('href');
+        var translated_provide_reason = $(this).attr('provide_rejection_reason');
+        var redirection_url = $(this).attr('redirection_url');
+        ActiveAdmin.modal_dialog("<%= I18n.t('active_admin.confirmation_rejection_reason') %>", { "<%= I18n.t('active_admin.provide_rejection_reason') %>": 'textarea' }, function (inputs) {
+            rejection_reason = Object.values(inputs);
+            if(rejection_reason)
+            {
+                $.ajax({
+                    url: rejection_url,
+                    method: "PUT",
+                    data: {
+                        reason: rejection_reason[0]
+                    },
+                    success: function () {
+                        window.location = redirection_url;
+                    }
+                });
+            }
+        });
+    });
+});

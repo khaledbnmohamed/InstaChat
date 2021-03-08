@@ -1,0 +1,100 @@
+#wrapper .flash.flash_alert{color:#161616;}
+.d-flex{
+  display: flex;
+}
+.justify-content-around{
+  justify-content: space-around;
+}
+#wrapper{
+  .header-item{
+    &.tabs {
+      li{
+        &.current{
+          a {
+            background-color: $mrn-primary !important;
+          }
+        }
+        a{
+          &:hover{
+            background-color: $mrn-primary !important;
+          }
+        }
+      }
+    }
+  }
+  #title_bar{
+    border-bottom: 3px solid $mrn-primary;
+    #titlebar_right{
+      .action_items {
+        .action_item{
+          a{
+            background-color: $mrn-primary;
+            &:hover{
+              background-color:$mrn-primary-hover !important;
+            }
+          }
+        }
+      }
+    }
+  }
+  .flashes{
+    .flash_notice{
+      background-color: #E1A92B1A;
+    }
+  }
+  #sidebar {
+    .sidebar_section{
+      &.panel{
+        > h3{
+          background-color: $mrn-primary;
+        }
+      }
+    }
+  }
+  .pagination{
+    span{
+      &.page{
+        &.current {
+          background-color: $mrn-primary;
+          &:hover{
+            background-color:$mrn-primary-hover !important;
+          }
+        }
+        a{
+          &:hover{
+            background-color:$mrn-primary-hover !important;
+          }
+        }
+      }
+      &.next , &.last{
+        a{
+          &:hover{
+            background-color:$mrn-primary-hover !important;
+          }
+        }
+      }
+    }
+  }
+}
+form input[type=submit], a.button, a:link.button, a:visited.button, fieldset.actions > ol > li.button_action > button{
+  background-color: $mrn-primary;
+  &:hover{
+    background-color:$mrn-primary-hover !important;
+  }
+}
+body.logged_out #content_wrapper #active_admin_content #login h2, .panel > h3{
+  background-color: $mrn-primary;
+}
+form.subscription_package #subscription_package_expiration_date{
+  width: calc(80% - 22px);
+}
+.text-center{
+  text-align: center;
+}
+.mb-0{
+  margin-bottom: 0;
+}
+.text-16-gray500{
+  color: #525252;
+  font-size: 1rem;
+}

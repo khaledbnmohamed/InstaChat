@@ -1,0 +1,45 @@
+# MySQL. Versions 5.5.8 and up are supported.
+#
+# Install the MySQL driver
+#   gem install mysql2
+#
+# Ensure the MySQL gem is defined in your Gemfile
+#   gem 'mysql2'
+#
+# And be sure to use new-style password hashing:
+#   https://dev.mysql.com/doc/refman/5.7/en/password-hashing.html
+#
+default: &default
+  adapter: mysql2
+  encoding: utf8mb4
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  socket: /var/run/mysqld/mysqld.sock
+
+development:
+  <<: *default
+  database: <%= ENV['DEVELOPMENT_INSTACHAT_DATABASE_DATABASE_NAME'] %>
+  username: <%= ENV['DEVELOPMENT_INSTACHAT_DATABASE_USER'] %>
+  password: <%= ENV['DEVELOPMENT_INSTACHAT_DATABASE_PASSWORD'] %>
+  host:     <%= ENV['DEVELOPMENT_INSTACHAT_DATABASE_HOST_NAME'] %>
+
+test:
+  <<: *default
+  database: <%= ENV['TEST_INSTACHAT_DATABASE_DATABASE_NAME'] %>
+  username: <%= ENV['TEST_INSTACHAT_DATABASE_USER'] %>
+  password: <%= ENV['TEST_INSTACHAT_DATABASE_PASSWORD'] %>
+  host:     <%= ENV['TEST_INSTACHAT_DATABASE_HOST_NAME'] %>
+
+staging:
+  <<: *default
+  database: <%= ENV['STAGING_INSTACHAT_DATABASE_DATABASE_NAME'] %>
+  username: <%= ENV['STAGING_INSTACHAT_DATABASE_USER'] %>
+  password: <%= ENV['STAGING_INSTACHAT_DATABASE_PASSWORD'] %>
+  host:     <%= ENV['STAGING_INSTACHAT_DATABASE_HOST_NAME'] %>
+
+production:
+  <<: *default
+  database: <%= ENV['PRODUCTION_INSTACHAT_DATABASE_DATABASE_NAME'] %>
+  username: <%= ENV['PRODUCTION_INSTACHAT_DATABASE_USER'] %>
+  password: <%= ENV['PRODUCTION_INSTACHAT_DATABASE_PASSWORD'] %>
+  host:     <%= ENV['PRODUCTION_INSTACHAT_DATABASE_HOST_NAME'] %>
+  port:     <%= ENV['PRODUCTION_INSTACHAT_DATABASE_PORT'] %>

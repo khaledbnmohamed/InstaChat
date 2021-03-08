@@ -1,0 +1,86 @@
+
+.authentication-modal.ui-dialog {
+  top: calc(50vh - 37rem/2) !important;
+  left: calc(50vw - 26rem/2) !important;
+  width: 30% !important;
+}
+input.input-code.google-code {
+  width: 72% !important;
+}
+.google-code-label{
+  display: inline-block;
+  width: 22%;
+  font-size: 1rem;
+  color: #8494a8;
+}
+.mfa-container{
+  position: relative;
+  direction: rtl;
+  form{
+    margin-top: 3rem;
+  }
+}
+.google-auth-title{
+  position: absolute;
+  top: -3.813rem;
+  right: -1.9rem;
+  background: #464DA0;
+  display: block;
+  width: 108.3%;
+  color: white;
+  padding: 0.5rem 1.5rem 0.5rem 0;
+  border-radius: 0.25rem 0.25rem 0 0;
+  text-align: right;
+}
+.ui-dialog-titlebar{
+  text-align: right;
+}
+.fa-img{
+  width: 3rem;
+  margin: auto;
+  display: block;
+  margin-bottom: .5rem;
+}
+.fa-intro{
+  text-align: center;
+  color: #525252;
+  font-size: .9rem;
+}
+.horizontal-line{
+  margin: 1.25rem;
+  border: 0.063rem solid #EFEFEF;
+}
+.android-ios-imgs {
+  margin-top: 1rem;
+  img{
+    max-width: 7rem;
+  }
+}
+.submit-code{
+  margin-top: 0.75rem;
+  margin-bottom: 1rem;
+  &.text-center{
+    text-align: center;
+  }
+}
+.qrcode{
+  display: block;
+  margin: auto;
+  height: 9.375rem;
+}
+.center-btn{
+  text-align: center;
+}
+.google-auth{
+  width: 23.438rem !important;
+  direction: rtl;
+  &.ui-dialog form ul li input[type="text"]{
+    width: 93%;
+  }
+  &.authentication-modal #dialog_confirm ul li label {
+    display: block !important;
+  }
+  &.ui-dialog .ui-dialog-buttonpane button{
+    margin-right: 1rem;
+  }
+}

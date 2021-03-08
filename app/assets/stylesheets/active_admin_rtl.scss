@@ -1,0 +1,344 @@
+html[lang="ar"] {
+  direction: rtl;
+
+  body.active_admin #header {
+    width: 100%;
+  }
+
+  .ui-tabs-nav{
+    padding-right: 0px;
+  }
+
+  .ui-tabs-nav li{
+    float: right;
+  }
+
+  body.active_admin #title_bar {
+    float: left;
+  }
+
+  body.active_admin .index_grid td {
+    text-align: center;
+  }
+
+  body.active_admin .comments .active_admin_comment .active_admin_comment_meta h4{
+    float: right;
+    margin-left: .5em;
+  }
+
+  body.active_admin form fieldset ol li label{
+    float: right;
+  }
+
+  body.active_admin #active_admin_content #login a {
+    clear: both;
+  }
+
+  body.active_admin table,
+  body.active_admin table tr,
+  body.active_admin table tr th,
+  body.active_admin table tr td,
+  body.active_admin table tr th a{
+    text-align: right;
+  }
+
+  .index #wrapper {
+    display: block;
+  }
+
+  #header #utility_nav{
+    text-align: left;
+    padding-left: 25px;
+  }
+
+  body.active_admin #header {
+    float: none;
+  }
+
+  #header{
+    min-height: 20px;
+  }
+
+  #sidebar{
+    font-size: 11px!important;
+  }
+
+  #sidebar label{
+    font-size: 12px!important;
+  }
+
+  #sidebar h3{
+    font-size: 16px!important;
+  }
+
+  .actions{
+    float: right;
+  }
+
+  .action_items{
+    float: left;
+  }
+
+  #login a{
+    float: left !important;
+  }
+
+  /* Fixing Flash */
+  .flash {
+    position: initial !important;
+  }
+
+  /* RTL Sidebar & Tables */
+  #active_admin_content #main_content_wrapper {
+    float: right;
+    margin: 0;
+    margin-left: -270px;
+  }
+
+  #active_admin_content .paginated_collection , .table_tools{
+    width: 77%;
+    overflow-x: auto;
+  }
+
+  #active_admin_content #main_content_wrapper #main_content {
+    margin-right: 0px;
+  }
+
+  #active_admin_content #sidebar {
+    float: left;
+    width: 270px;
+    margin: 0;
+    -webkit-transform: translateZ(0) ;
+    transform: translateZ(0) ;
+  }
+
+  #sidebar form .buttons input[type=submit],
+  #sidebar form .buttons input[type=button],
+  #sidebar form .buttons button,
+  #sidebar form .actions input[type=submit],
+  #sidebar form .actions input[type=button],
+  #sidebar form .actions button{
+    margin-right: 0;
+  }
+
+  #sidebar label{
+    margin-top: 5px;
+    margin-bottom: 3px;
+  }
+
+  .column{
+    float: right!important;
+  }
+
+  #utility_nav{
+    float: none!important;
+  }
+
+  #header h1{
+    float: none!important;
+  }
+
+  #title_bar{
+    float: none!important;
+  }
+
+  #active_admin_content{
+    clear: both;
+  }
+
+  form.filter_form .filter_form_field.select_and_search input[type=text]{
+    margin-left: 0;
+    margin-right: 16px;
+  }
+
+  #footer{
+    text-align: left;
+  }
+
+  /* chosen plugin */
+  .chosen-container.chosen-with-drop .chosen-drop{
+    right: 0;
+    left: initial;
+  }
+
+  h2#page_title{
+    margin-bottom: 18px;
+  }
+
+  #main-dashboard-list ul{
+    top: 25px!important;
+  }
+
+  .dashboard-search-container input{
+    padding: 10px 60px 10px 15px;
+  }
+
+  .dashboard-search-container::after{
+    top: 23%;
+    left: initial;
+    right: 7.5%;
+  }
+
+  #wrapper #header ul.tabs li.has_nested ul {
+    border-top-right-radius: 0px;
+  }
+
+  #wrapper #header ul.tabs > li > a{
+    padding: 3px 10px 3px 10px;
+  }
+
+  #header ul.tabs > li ul{
+    top:27px;
+  }
+
+  // ==== Dashboard ==== //
+  .report-block{
+    margin-right: 0;
+    margin-left: 1%;
+  }
+
+  .report-block:last-child{
+    margin-left: 0px;
+  }
+
+  .report-block.colored .icon-container{
+    right: initial;
+    left: 0;
+  }
+
+  .panel-container{
+    padding-right: 0;
+    padding-left: 1.55%;
+  }
+
+  .panel-container:last-child{
+    padding-left: 0px;
+  }
+
+  .report-panel .heading h1.title{
+    float: right;
+  }
+
+  .report-panel .heading h1.title-count{
+    float: left;
+  }
+
+  .report-panel .heading .title i{
+    padding-right: 0px;
+    padding-left: 5px;
+  }
+
+  .report-panel .statistics-list .list-item span:nth-child(2){
+    padding-left: 10px;
+    padding-right: 0px;
+  }
+
+  .report-panel .statistics-list .list-item span i{
+    padding-right: 0px;
+    padding-left: 5px;
+  }
+
+  .table_tools {
+    float: right;
+    .table_tools_segmented_control li {
+      float: right;
+    }
+  }
+
+
+
+  // POLICY
+
+
+  body .select2-container .select2-selection--single .select2-selection__rendered {
+    padding-left: 20px;
+    padding-right: 10px;
+  }
+  body .select2-container--default .select2-selection--single .select2-selection__arrow {
+    left: 1px;
+    right: auto;
+  }
+  body.active_admin .select2-container,
+  body .select2-container .select2-selection--single .select2-selection__rendered {
+    text-align: right;
+  }
+
+  form input[type=submit], a.button, a:link.button, a:visited.button, fieldset.actions > ol > li.button_action > button ,
+  form fieldset.buttons li.cancel a, form fieldset.actions li.cancel a, form.filter_form a.clear_filters_btn{
+    font-size: 13px !important;
+  }
+
+
+  form fieldset.buttons li,
+  form fieldset.actions li,
+  form .actions,
+  body.active_admin form fieldset ol li label {
+    float:none !important;
+  }
+  form .actions,
+  body.active_admin #active_admin_content #login a{
+    margin-top:0 !important;
+  }
+
+
+
+  body.active_admin form fieldset ol li label{
+    min-width: 8rem;
+  }
+
+  form fieldset > ol > li.boolean label {
+    padding-right: 28% !important;
+  }
+
+
+  body.logged_out #login form fieldset li {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+
+
+  /* Large Devices, Wide Screens */
+  @media only screen and (max-width : 1324px) {
+    .panel-container{
+      padding-right: 0;
+      padding-left: 1.55%;
+    }
+  }
+
+  @media only screen and (max-width : 1200px) {
+
+  }
+
+  @media only screen and (max-width : 1100px) {
+
+  }
+
+  /* Medium Devices, Desktops */
+  @media only screen and (max-width : 992px) {
+
+  }
+
+  /* Small Devices, Tablets */
+  @media only screen and (max-width : 768px) {
+
+  }
+
+  /* Extra Small Devices, Phones */
+  @media only screen and (max-width : 480px) {
+
+  }
+
+  /* Custom, iPhone Retina */
+  @media only screen and (max-width : 320px) {
+
+  }
+  // ===================
+  .admin_policy_review_requests .dropdown_menu .dropdown_menu_button:after {
+    left: 7px;
+    right: auto;
+  }
+  .admin_policy_review_requests .dropdown_menu .dropdown_menu_button:before {
+    display: none;
+  }
+}
