@@ -2,7 +2,7 @@
 
 module Api::V1
   class ChatBlueprint < Blueprinter::Base
-    fields :number
+    fields :number, :messages_count
 
     association :application, blueprint: ApplicationBlueprint
   end

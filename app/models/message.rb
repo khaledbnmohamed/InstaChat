@@ -19,5 +19,25 @@
 #  fk_rails_...  (chat_id => chats.id)
 #
 class Message < ApplicationRecord
+  include Elasticsearch::Model
+  include Elasticsearch::Model::Callbacks
+
   belongs_to :chat, inverse_of: :messages
+
+  before_save :increment_messages_counter
+
+  index_name    'text_index'
+  document_type 'text'
+
+  settings do
+    mappings dynamic: false do
+      indexes :text, type: :text
+    end
+  end
+
+  def increment_messages_counter
+    chat.with_lock do
+      chat.increment!(:messages_count)
+    end
+  end
 end

@@ -8,7 +8,8 @@ module Api::V1
 
     # GET /chats
     def index
-      @chats = Chat.all
+      chats = Chat.all
+      render json: ChatBlueprint.render(chats)
     end
 
     # GET /chats/1
@@ -19,13 +20,9 @@ module Api::V1
 
     # POST /chats
     def create
-      chat = Chat.new(application_id: @application.id)
+      ChatCreationJob.perform_later(application_id: @application.id)
 
-      unless chat.save
-        raise Errors::CustomError.new(:bad_request, 400, chat.errors.messages)
-      end
-
-      render json: ChatBlueprint.render(chat)
+      render json: "Chat enqueued"
     end
 
     # PATCH/PUT /chats/1

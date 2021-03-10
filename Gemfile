@@ -33,15 +33,15 @@ gem 'bootsnap', '>= 1.4.2', require: false
 gem 'devise-i18n', '=1.9.1'
 gem 'rails-i18n', '=6.0.0'
 
+gem 'elasticsearch-model', '=7.1.1'
+gem 'elasticsearch-rails', '=7.1.1'
+
 # Authentication
 gem 'devise', '4.7.1'
 gem 'jwt', '2.2.1'
 
 # Authorization
 gem 'pundit', '=2.1.0'
-
-# Search and filtering for AR
-gem 'ransack', '=2.3.2'
 
 gem 'resque', '=2.0.0'
 gem 'rswag', '~> 2.3.1'

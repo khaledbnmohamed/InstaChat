@@ -8,7 +8,12 @@ module Api::V1
 
     # GET /messages
     def index
-      @messages = Message.all
+      messages = if params[:keyword].present?
+                   @chat.messages.search(params[:keyword])
+                 else
+                   @chat.messages
+      end
+      render json: messages
     end
 
     # GET /messages/1
@@ -19,14 +24,9 @@ module Api::V1
 
     # POST /messages
     def create
-      message = Message.new(message_params)
-      message.chat_id = @chat.id
+      MessageCreationJob.perform_later(chat_id: @chat.id, text: message_params[:text] )
 
-      unless message.save
-        raise Errors::CustomError.new(:bad_request, 400, message.errors.messages)
-      end
-
-      render json: MessageBlueprint.render(message)
+      render json: "enqueued"
     end
 
     # PATCH/PUT /messages/1

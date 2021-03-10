@@ -2,7 +2,7 @@
 
 module Api::V1
   class MessageBlueprint < Blueprinter::Base
-    fields :id
+    fields :text
 
     association :chat, blueprint: ChatBlueprint
   end

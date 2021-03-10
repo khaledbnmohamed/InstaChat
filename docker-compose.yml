@@ -3,6 +3,7 @@ version: '3.7'
 volumes:
   development-database-data-volume:
   test-database-data-volume:
+  elastic_search:
   rails_cache:
   bundle:
   node_modules:
@@ -22,10 +23,9 @@ services:
       - 3000:3000
     tty: true
     stdin_open: true
-    depends_on:
-      - instachat_development_database
-      - instachat_test_database
-      - instachat_redis
+    # depends_on:
+    #   - instachat_development_database
+    #   - instachat_test_database
     volumes:
       - .:/home/instachat/instachat:cached
       - ~/.ssh:/home/instachat/.ssh
@@ -36,8 +36,29 @@ services:
     tmpfs:
       - /tmp
     env_file: .env
+    command: sh -c "sh sleeper.sh elastic_search:9200 && sh ./init.sh && rails s -p 3000 -b '0.0.0.0'"
+    links:
+      - elastic_search
+      - instachat_redis
+    environment:
+      - ES_HOST=elastic_search
     entrypoint: ["/home/instachat/docker-entrypoint.sh"]
-    command: ["bundle", "exec", "rails","server","-b","0.0.0.0","-p","3000"]
+    # command: ["bundle", "exec", "rake" , "db:create"]
+    # command: ["bundle", "exec", "rake" , "db:migrate"]
+    # command: ["bundle", "exec", "rake" , "es:build_index"]
+    # command: ["bundle", "exec", "rails","server","-b","0.0.0.0","-p","3000"]
+
+
+  elastic_search:
+    image: elasticsearch:5.4.0-alpine
+    restart: always
+    ports:
+      - "9200:9200"
+    volumes:
+      - ./volumes/es:/usr/share/elasticsearch/data
+    depends_on:
+      - instachat_redis
+
 
   instachat_worker:
     <<: *instachat
