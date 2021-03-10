@@ -11,6 +11,10 @@
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
+# Indexes
+#
+#  index_applications_on_number  (number)
+#
 FactoryBot.define do
   factory :application do
     sequence(:name) { FFaker::LoremAR.word }

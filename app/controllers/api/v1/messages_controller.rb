@@ -13,7 +13,7 @@ module Api::V1
                  else
                    @chat.messages
       end
-      render json: messages
+      render json: params[:keyword].present? ? messages : MessageBlueprint.render(messages)
     end
 
     # GET /messages/1

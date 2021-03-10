@@ -14,14 +14,13 @@
 # Indexes
 #
 #  index_chats_on_application_id  (application_id)
+#  index_chats_on_number          (number)
 #
 # Foreign Keys
 #
 #  fk_rails_...  (application_id => applications.id)
 #
 class Chat < ApplicationRecord
-  has_reference :number
-
   belongs_to :application, inverse_of: :chats
 
   has_many :messages, dependent: :restrict_with_exception, inverse_of: :chat
@@ -31,6 +30,7 @@ class Chat < ApplicationRecord
   def increment_chats_counter
     application.with_lock do
       application.increment!(:chats_count)
+      chat.number = chats_count
     end
   end
 end

@@ -23,10 +23,6 @@ module HasReference
           send("#{attribute}=", generate_unique_reference(attribute))
         end
       end
-
-      define_method("regenerate_#{attribute}") do
-        update_column attribute, generate_unique_reference(attribute)
-      end
     end
     # rubocop:enable Namin/PredicateName
   end

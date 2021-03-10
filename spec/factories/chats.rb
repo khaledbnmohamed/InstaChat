@@ -14,6 +14,7 @@
 # Indexes
 #
 #  index_chats_on_application_id  (application_id)
+#  index_chats_on_number          (number)
 #
 # Foreign Keys
 #

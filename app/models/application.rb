@@ -11,6 +11,10 @@
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
+# Indexes
+#
+#  index_applications_on_number  (number)
+#
 class Application < ApplicationRecord
   has_reference :number
 

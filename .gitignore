@@ -39,3 +39,4 @@ rspec.xml
 .irb_history
 public/uploads
 spec/support/uploads
+tmp/
