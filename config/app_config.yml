@@ -1,28 +1,6 @@
 secret_key_base: <%= ENV['SECRET_KEY_BASE'] %>
 
 default: &default
-  qiwa_domain: "qiwa.info"
-  root_domain: 'localhost'
-  websocket_frontend_url:  <%= ENV['DEVELOPMENT_WEBSOCKET_FRONTEND_URL'] %>
-  unifonic:
-    send_sms_url:  <%= ENV['DEVELOPMENT_UNIFONIC_URL'] %>
-    app_sid:  <%= ENV['DEVELOPMENT_UNIFONIC_APP_SID'] %>
-    username:  <%= ENV['DEVELOPMENT_UNIFONIC_USERNAME'] %>
-    password:  <%= ENV['DEVELOPMENT_UNIFONIC_PASSWORD'] %>
-    sender_id:  <%= ENV['DEVELOPMENT_UNIFONIC_SENDER_ID'] %>
-  absher:
-    send_sms_url: <%= ENV['DEVELOPMENT_ABSHER_SEND_SMS_URL'] %>
-    user_verification_url: <%= ENV['DEVELOPMENT_ABSHER_USER_VERIFICATION_URL'] %>
-  takamol_payment:
-    payment_due_date_in_days: <%= ENV['DEVELOPMENT_TAKAMOL_PAYMENT_DUE_DATE_IN_DAYS'] %>
-    api_key: <%= ENV['DEVELOPMENT_TAKAMOL_PAYMENT_API_KEY'] %>
-    api_secret: <%= ENV['DEVELOPMENT_TAKAMOL_PAYMENT_API_SECRET'] %>
-    system_id: <%= ENV['DEVELOPMENT_TAKAMOL_PAYMENT_SYSTEM_ID'] %>
-    define_bill_url: <%= ENV['DEVELOPMENT_TAKAMOL_PAYMENT_DEFINE_BILL_URL'] %>
-    billing_template_id: <%= ENV['DEVELOPMENT_TAKAMOL_PAYMENT_BILLING_TEMPLATE_ID'] %>
-    item_template_id: <%= ENV['DEVELOPMENT_TAKAMOL_PAYMENT_ITEM_TEMPLATE_ID'] %>
-    username: <%= ENV['DEVELOPMENT_TAKAMOL_PAYMENT_USERNAME'] %>
-    password: <%= ENV['DEVELOPMENT_TAKAMOL_PAYMENT_PASSWORD'] %>
   redis: &default_redis
     host: <%= ENV['DEVELOPMENT_INSTACHAT_REDIS_HOST'] %>
     port:  <%= ENV['DEVELOPMENT_INSTACHAT_REDIS_PORT'] %>
@@ -54,7 +32,3 @@ production:
       db: <%= ENV['PRODUCTION_INSTACHAT_REDIS_DB'] %>
     features_flags:
       db: <%= ENV['PRODUCTION_FEATURES_FLAGS_DB'] %>
-    sentinels:
-      - {host: mrn-redis1, port: 26379}
-      - {host: mrn-redis2, port: 26379}
-      - {host: mrn-redis3, port: 26379}

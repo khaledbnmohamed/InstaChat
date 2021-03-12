@@ -32,15 +32,11 @@ Rails.application.configure do
 
   config.action_controller.asset_host = ENV['DEVELOPMENT_ASSET_HOST']
 
-  config.action_mailer.asset_host = ENV['DEVELOPMENT_ASSET_HOST']
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
 
   # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
-
-  config.action_mailer.perform_caching = false
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -58,7 +54,7 @@ Rails.application.configure do
 
   # Suppress logger output for asset requests.
   config.assets.quiet = true
-  config.hosts << 'instachat'
+
   # Raises error for missing translations.
   config.action_view.raise_on_missing_translations = true
 
@@ -74,21 +70,4 @@ Rails.application.configure do
     end
   end
 
-  # SMTP Configurations
-  config.action_mailer.delivery_method = :smtp
-
-  config.action_mailer.smtp_settings = {
-    user_name: ENV['DEVELOPMENT_SMTP_USER_NAME'],
-    password: ENV['DEVELOPMENT_SMTP_PASSWORD'],
-    address: ENV['DEVELOPMENT_SMTP_ADDRESS'],
-    domain: ENV['DEVELOPMENT_SMTP_DOMAIN'],
-    port: ENV['DEVELOPMENT_SMTP_PORT'],
-    authentication: :cram_md5
-  }
-
-  config.action_mailer.default_url_options = {
-    host: ENV['DEVELOPMENT_HOST']
-  }
-
-  config.action_mailer.asset_host = ENV['DEVELOPMENT_ASSET_HOST']
 end

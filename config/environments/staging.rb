@@ -128,24 +128,5 @@ Rails.application.configure do
       resource '/api/*', headers: :any, methods: %i[get delete put patch post options], expose: %w[bearer]
     end
   end
-  config.after_initialize do
-    config.action_cable.allowed_request_origins = [AppConfig.websocket_frontend_url]
-  end
-  #SMTP Configurations
-  config.action_mailer.delivery_method = :smtp
 
-  config.action_mailer.smtp_settings = {
-    :user_name => ENV['STAGING_SMTP_USER_NAME'],
-    :password => ENV['STAGING_SMTP_PASSWORD'],
-    :address => ENV['STAGING_SMTP_ADDRESS'],
-    :domain => ENV['STAGING_SMTP_DOMAIN'],
-    :port => ENV['STAGING_SMTP_PORT'],
-    :authentication => :cram_md5
-  }
-
-  config.action_mailer.default_url_options = {
-    host: ENV['STAGING_HOST']
-  }
-
-  config.action_mailer.asset_host = ENV['STAGING_ASSET_HOST']
 end
