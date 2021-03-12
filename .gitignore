@@ -43,3 +43,4 @@ tmp/
 /tmp/cache/*
 volumes/*
 /volumes/*
+log/development.log
