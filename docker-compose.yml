@@ -108,3 +108,15 @@ services:
     container_name: instachat_redis
     image: redis
     restart: always
+
+  # golang app part. It depends on the rails_app to initialize the database
+  go_app:
+    build: ./go_app
+    command: ./myapp -port 4000
+    environment:
+      # Gin webserver run mode. Or "debug" for debugging
+      - GIN_MODE=release
+    ports:
+      - "4000:4000"
+    depends_on:
+      - instachat
