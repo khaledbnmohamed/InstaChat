@@ -44,3 +44,4 @@ tmp/
 volumes/*
 /volumes/*
 log/development.log
+volumes/es/nodes/0/indices/4JCZYEvzQSuQu4zcnAC-mQ/2/translog/translog.ckp
