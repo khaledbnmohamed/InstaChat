@@ -5,6 +5,7 @@
 # Table name: messages
 #
 #  id         :bigint           not null, primary key
+#  number     :string(255)
 #  text       :text(65535)      not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null

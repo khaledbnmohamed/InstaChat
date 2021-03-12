@@ -8,7 +8,7 @@ module Api::V1
 
     # GET /chats
     def index
-      chats = Chat.all
+      chats = @application.chats
       render json: ChatBlueprint.render(chats)
     end
 
@@ -22,7 +22,7 @@ module Api::V1
     def create
       ChatCreationJob.perform_later(application_id: @application.id)
 
-      render json: "Chat enqueued"
+      render json: 'Chat enqueued'
     end
 
     # PATCH/PUT /chats/1

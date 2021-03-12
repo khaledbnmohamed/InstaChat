@@ -47,8 +47,8 @@ module Wph
       g.fixture_replacement :factory_bot, dir: 'spec/factories'
     end
 
-    config.i18n.default_locale = :ar
-    config.i18n.available_locales = %i[ar en]
+    config.i18n.default_locale = :en
+    config.i18n.available_locales = %i[en]
     config.web_console.whitelisted_ips = '0.0.0.0/0' if Rails.env.development?
   end
 end

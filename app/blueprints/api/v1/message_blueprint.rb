@@ -4,6 +4,8 @@ module Api::V1
   class MessageBlueprint < Blueprinter::Base
     fields :text, :number
 
-    association :chat, blueprint: ChatBlueprint
+    view :show do
+      association :chat, blueprint: ChatBlueprint
+    end
   end
 end

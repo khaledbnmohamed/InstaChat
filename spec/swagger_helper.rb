@@ -19,21 +19,11 @@ RSpec.configure do |config|
     'v1/swagger.yaml' => {
       swagger: '2.0',
       info: {
-        title: 'Work Per Hour APIs',
+        title: 'InstaChat APIs',
         description: 'This is the description of the API',
         version: 'v1'
       },
-      paths: {},
-      securityDefinitions: {
-        bearerAuth: {
-          type: :apiKey,
-          name: 'Authorization',
-          in: :header
-        }
-      },
-      security: [
-        bearerAuth: []
-      ]
+      paths: {}
     }
   }
 

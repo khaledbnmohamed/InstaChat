@@ -10,7 +10,9 @@ module Api::V1
     end
 
     # GET /applications/1
-    def show; end
+    def show
+      render json: ApplicationBlueprint.render(@application)
+    end
 
     # GET /applications/1/edit
     def edit; end

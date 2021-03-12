@@ -19,4 +19,7 @@ class Application < ApplicationRecord
   has_reference :number
 
   has_many :chats, dependent: :restrict_with_exception, inverse_of: :application
+
+  # validations
+  validates :name, presence: true
 end

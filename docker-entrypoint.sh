@@ -8,7 +8,7 @@ fi
 gem install bundler
 bundle install
 
-overcommit --install
-overcommit --sign
+# overcommit --install
+# overcommit --sign
 
 exec "$@"

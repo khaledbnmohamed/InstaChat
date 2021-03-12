@@ -5,6 +5,7 @@
 # Table name: messages
 #
 #  id         :bigint           not null, primary key
+#  number     :string(255)
 #  text       :text(65535)      not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
@@ -22,10 +23,16 @@ class Message < ApplicationRecord
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
 
+  # relations
   belongs_to :chat, inverse_of: :messages
 
-  before_save :increment_messages_counter
+  # callbacks
+  before_create :increment_messages_counter
 
+  # validations
+  validates :text, presence: true
+
+  # elastic search configurations
   index_name    'text_index'
   document_type 'text'
 
@@ -38,7 +45,7 @@ class Message < ApplicationRecord
   def increment_messages_counter
     chat.with_lock do
       chat.increment!(:messages_count)
-      message.number = messages_count
+      self.number = chat.messages_count
     end
   end
 end

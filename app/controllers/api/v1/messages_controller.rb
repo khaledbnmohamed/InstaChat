@@ -2,7 +2,7 @@
 
 module Api::V1
   class MessagesController < ::Api::BaseController
-    before_action :set_chat
+    before_action :set_application, :set_chat
 
     before_action :set_message, only: %i[show edit update destroy]
 
@@ -13,7 +13,10 @@ module Api::V1
                  else
                    @chat.messages
       end
-      render json: params[:keyword].present? ? messages : MessageBlueprint.render(messages)
+
+      render_option = params[:keyword].present? ? messages[0]['_source'] : messages
+      render json: { chat: ChatBlueprint.render_as_json(@chat),
+                     messages: MessageBlueprint.render_as_json(render_option) }
     end
 
     # GET /messages/1
@@ -24,9 +27,9 @@ module Api::V1
 
     # POST /messages
     def create
-      MessageCreationJob.perform_later(chat_id: @chat.id, text: message_params[:text] )
+      MessageCreationJob.perform_later(chat_id: @chat.id, text: message_params[:text])
 
-      render json: "enqueued"
+      render json: 'enqueued'
     end
 
     # PATCH/PUT /messages/1
@@ -46,14 +49,18 @@ module Api::V1
 
     private
 
+    def set_application
+      @application = Application.find_by(number: params[:application_token])
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_chat
-      @chat = Chat.find_by(number: params[:chat_id])
+      @chat = @application.chats.find_by(number: params[:chat_id])
     end
 
     # Use callbacks to share common setup or constraints between actions.
     def set_message
-      @message = Message.find_by(number: params[:number])
+      @message = @chat.messages.find_by(number: params[:number])
     end
 
     # Only allow a trusted parameter "white list" through.

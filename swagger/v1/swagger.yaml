@@ -1,0 +1,66 @@
+---
+swagger: '2.0'
+info:
+  title: InstChat APIs
+  description: This is the description of the API
+  version: v1
+paths:
+  "/api/v1/applications":
+    post:
+      summary: create application
+      tags:
+      - applications
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: application
+        in: body
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+      responses:
+        '200':
+          description: create application
+  "/api/v1/applications/:token":
+    put:
+      summary: update application
+      tags:
+      - applications
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: application
+        in: body
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+      responses:
+        '200':
+          description: create application
+    get:
+      summary: get application
+      tags:
+      - applications
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: application
+        in: body
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+      responses:
+        '200':
+          description: create application

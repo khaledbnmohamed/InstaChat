@@ -40,3 +40,6 @@ rspec.xml
 public/uploads
 spec/support/uploads
 tmp/
+/tmp/cache/*
+volumes/*
+/volumes/*

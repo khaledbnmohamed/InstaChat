@@ -21,16 +21,18 @@
 #  fk_rails_...  (application_id => applications.id)
 #
 class Chat < ApplicationRecord
+  # relations
   belongs_to :application, inverse_of: :chats
 
   has_many :messages, dependent: :restrict_with_exception, inverse_of: :chat
 
-  before_save :increment_chats_counter
+  # callbacks
+  before_create :increment_chats_counter
 
   def increment_chats_counter
     application.with_lock do
       application.increment!(:chats_count)
-      chat.number = chats_count
+      self.number = application.chats_count
     end
   end
 end

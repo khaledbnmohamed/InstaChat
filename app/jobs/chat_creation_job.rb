@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChatCreationJob < ApplicationJob
   queue_as :chats
 
@@ -5,8 +7,8 @@ class ChatCreationJob < ApplicationJob
     chat = Chat.new(application_id: application_id)
 
     chat_saved = chat.save
-    Resque.logger.info "========= chat below #{chat_saved ? " " : "not "} saved ========="
+    Resque.logger.info "========= chat below #{chat_saved ? ' ' : 'not '} saved ========="
     Resque.logger.info chat
-    Resque.logger.info "================================"
+    Resque.logger.info '================================'
   end
 end
