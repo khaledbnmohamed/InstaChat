@@ -13,89 +13,88 @@ require 'rails_helper'
 # It only uses APIs available in rails and/or rspec-rails. There are a number
 # of tools you can use to make these specs even more expressive, but we're
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
-
-path '/api/v1/applications/{application_token}/chats/{chat_number}/messages' do
-  post 'create message' do
-    tags 'messages'
-    consumes 'chat/json'
-    produces 'chat/json'
-
-    parameter name: :application_token, in: :path, type: :integer, required: true
-    parameter name: :chat_number, in: :path, type: :integer, required: true
-    parameter name: :chat, in: :body, schema: {
-      type: :object,
-      properties: {
-        text: { type: :string }
-      }
-    }
-      response '200', 'create chat' do
-        it "updates chat succsfully" do
-          post "/api/v1/chats", params: { chat: { name: "Khaled Awad chat" } }
-          expect(response).to have_http_status(:success)
-          expect(response.parsed_body['name']).to eq("Khaled Awad chat")
-          expect(response.parsed_body).to include("number")
-          expect(response.parsed_body).to include("chats_count")
-          expect(response.parsed_body).to include("number")
-          expect(response.parsed_body).to_not include("id")
-        end
-      end
-    end
-  end
+RSpec.describe '/api/v1/applications/{application_token}/chats/{chat_number}/messages' do
 
   path '/api/v1/applications/{application_token}/chats/{chat_number}/messages' do
-    put 'update chat' do
-      tags 'messages'
-      consumes 'chat/json'
-      produces 'chat/json'
-
-      parameter name: :application_token, in: :path, type: :integer, required: true
-      parameter name: :chat_number, in: :path, type: :integer, required: true
-      parameter name: :chat, in: :body, schema: {
-        type: :object,
-        properties: {
-          text: { type: :string }
-        }
-      }
-      let(:chat) { FactoryBot.create(:chat) }
-
-      response '200', 'create chat' do
-        it 'creates chat succsfully' do
-          put "/api/v1/chats/#{chat.number}", params: { chat: { name: 'edited app' } }
-          expect(response).to have_http_status(:success)
-          expect(response.parsed_body['name']).to eq('edited app')
-          expect(response.parsed_body).to include('number')
-          expect(response.parsed_body).to include('chats_count')
-          expect(response.parsed_body).to include('number')
-          expect(response.parsed_body).to_not include('id')
-        end
-      end
-    end
-  end
-
-  path '/api/v1/applications/{application_token}/chats/{chat_number}/messages' do
-    get 'search messages' do
+    post 'create message' do
       tags 'messages'
       consumes 'application/json'
       produces 'application/json'
 
       parameter name: :application_token, in: :path, type: :integer, required: true
       parameter name: :chat_number, in: :path, type: :integer, required: true
-
       parameter name: :message, in: :body, schema: {
         type: :object,
         properties: {
-          keyword: { type: :string }
+          text: { type: :string }
         }
       }
-      FactoryBot.create_list(:message, 30)
-      let(:message) { FactoryBot.create(:message, text: 'رسالة عربية') }
-      Message.__elasticsearch__.refresh_index!
+        response '200', 'create message succefully' do
+          let(:chat) { FactoryBot.create(:chat) }
 
-      response '200', 'search message' do
-        it 'find message succsfully' do
-          get "/api/v1/applications/#{message.chat.application.number}/chats/#{message.chat.number}/messages",
-              params: { keyword: 'عربية' }
-          expect(response).to have_http_status(:success)
+          it "create message succsfully" do
+            post "/api/v1/applications/#{chat.application.number}/chats/#{chat.number}/messages", params: { message: { text: "message" } }
+            expect(response).to have_http_status(:success)
+            messages_count = chat.reload.messages_count
+            expect(response.parsed_body['message']).to eq("Message with number: #{messages_count} will be created shorlty")
+            expect(response.parsed_body['number']).to eq(messages_count)
+          end
+        end
+    end
+
+    path '/api/v1/applications/{application_token}/chats/{chat_number}/messages/{message_number}' do
+      put 'update message' do
+        tags 'messages'
+        consumes 'application/json'
+        produces 'application/json'
+
+        parameter name: :application_token, in: :path, type: :integer, required: true
+        parameter name: :chat_number, in: :path, type: :integer, required: true
+        parameter name: :message_number, in: :path, type: :integer, required: true
+
+        parameter name: :message, in: :body, schema: {
+          type: :object,
+          properties: {
+            text: { type: :string }
+          }
+        }
+        let(:chat) { FactoryBot.create(:chat) }
+
+        response '200', 'message chat' do
+          it 'updates message succsfully' do
+            put "/api/v1/applications/#{chat.application.number}/chats/#{chat.number}/messages", params: { message: { text: 'edited app' } }
+            expect(response).to have_http_status(:success)
+            expect(response.parsed_body['name']).to eq('edited app')
+            expect(response.parsed_body).to include('number')
+            expect(response.parsed_body).to include('chats_count')
+            expect(response.parsed_body).to include('number')
+            expect(response.parsed_body).to_not include('id')
+          end
+        end
+      end
+    end
+
+    path '/api/v1/applications/{application_token}/chats/{chat_number}/messages' do
+      get 'search messages' do
+        tags 'messages'
+        consumes 'application/json'
+        produces 'application/json'
+
+        parameter name: :application_token, in: :path, type: :integer, required: true
+        parameter name: :chat_number, in: :path, type: :integer, required: true
+        parameter name: :keyword, in: :path, type: :string, required: false
+
+        FactoryBot.create_list(:message, 30)
+        let(:message) { FactoryBot.create(:message, text: 'رسالة عربية') }
+        Message.__elasticsearch__.refresh_index!
+
+        response '200', 'search message' do
+          it 'find message succsfully' do
+
+            get "/api/v1/applications/#{message.chat.application.number}/chats/#{c}/#{message.chat.number}/messages",
+                params: { keyword: 'عربية' }
+            expect(response).to have_http_status(:success)
+          end
         end
       end
     end

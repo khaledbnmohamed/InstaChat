@@ -18,16 +18,10 @@ RSpec.describe '/api/v1/applications/{application_token}/chats', type: :request 
   path '/api/v1/applications/{application_token}/chats' do
     post 'create chat' do
       tags 'chats'
-      consumes 'chat/json'
-      produces 'chat/json'
+      consumes 'application/json'
+      produces 'application/json'
 
       parameter name: :application_token, in: :path, type: :integer, required: true
-      parameter name: :chat, in: :body, schema: {
-        type: :object,
-        properties: {
-          name: { type: :string }
-        }
-      }
 
       response '200', 'create chat' do
         it 'create chat succsfully' do
@@ -39,39 +33,11 @@ RSpec.describe '/api/v1/applications/{application_token}/chats', type: :request 
     end
   end
 
-  # path '/api/v1/applications/{application_token}/chats/{chat_number}' do
-  #   put 'update chat' do
-  #     tags 'chats'
-  #     consumes 'chat/json'
-  #     produces 'chat/json'
-
-  #     parameter name: :chat, in: :body, schema: {
-  #       type: :object,
-  #       properties: {
-  #         name: { type: :string }
-  #       }
-  #     }
-  #     let(:chat) { FactoryBot.create(:chat) }
-
-  #     response '200', 'create chat' do
-  #       it 'updates chat succsfully' do
-  #         put "/api/v1/applications/#{chat.application.number}/chats/#{chat.number}"
-  #         expect(response).to have_http_status(:success)
-  #         expect(response.parsed_body['name']).to eq('edited app')
-  #         expect(response.parsed_body).to include('number')
-  #         expect(response.parsed_body).to include('chats_count')
-  #         expect(response.parsed_body).to include('number')
-  #         expect(response.parsed_body).to_not include('id')
-  #       end
-  #     end
-  #   end
-  # end
-
   path '/api/v1/applications/{application_token}/chats/{chat_number}' do
-    get 'delete chat' do
+    get 'get chat' do
       tags 'chats'
-      consumes 'chat/json'
-      produces 'chat/json'
+      consumes 'application/json'
+      produces 'application/json'
 
       parameter name: :application_token, in: :path, type: :integer, required: true
       parameter name: :chat_number, in: :path, type: :integer, required: true
@@ -79,6 +45,27 @@ RSpec.describe '/api/v1/applications/{application_token}/chats', type: :request 
       let(:chat) { FactoryBot.create(:chat) }
 
       response '200', 'create chat' do
+        it 'get chat succsfully' do
+          app = chat.application
+          get "/api/v1/applications/#{app.number}/chats/#{chat.number}"
+          expect(response).to have_http_status(:success)
+        end
+      end
+    end
+  end
+
+  path '/api/v1/applications/{application_token}/chats/{chat_number}' do
+    delete 'delete chat' do
+      tags 'chats'
+      consumes 'application/json'
+      produces 'application/json'
+
+      parameter name: :application_token, in: :path, type: :integer, required: true
+      parameter name: :chat_number, in: :path, type: :integer, required: true
+
+      let(:chat) { FactoryBot.create(:chat) }
+
+      response '200', 'delete chat succfully' do
         it 'delete chat succsfully  decrement coun' do
           app = chat.application
           delete "/api/v1/applications/#{app.number}/chats/#{chat.number}"

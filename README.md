@@ -34,18 +34,30 @@
 
     * Requirement [14] enforces having a pre-defined number sent to the consumer which will be supplied to the creation job to be used for object creation
     * This raises a need for a consistent **rollback mechanism is creation failed** to keep the counter coloum data integrant
+
+2) Using [Optimistic vs Pessmistic](https://blog.kiprosh.com/implement-optimistic-locking-in-rails/) locks while updating the counter:
+
+    * Even that optimisitic has better performance but it will raise error in the background that rolls back the declined changes and as we need our messages to be created, we chose pessmitic while we chose our main requirement over some performance boost, [reference](https://sipsandbits.com/2018/05/30/optimistic-locking-of-activerecord-models/)
+
+3) Using locks or not in decrementing the counter On resource deletion
+```ruby
+# Not using locks as it's less likely to conflict
+def decrement_chats_counter
+application.decrement!(:chats_count)
+end
+
+```
+
+
 ## Environment
 
-* Ruby 2.6.2
-* Rails 5.2
-* Elasticsearch 5.4.0
-* Redis 4.0
+* Ruby
+* Rails 
+* Redis
 * Resque worker
-* Go Lang
+* Elasticsearch 
 
 
 ## TODOs:
-1. Rspecs on (Sidekiq, Elastic Search, MessageCreation, RoomCreation, ApplicationCreation)
-2. Ngnix load balancer
-3. Finishing caching on data
+1. Rspecs on elastic search 
 

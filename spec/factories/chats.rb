@@ -23,5 +23,6 @@
 FactoryBot.define do
   factory :chat do
     association :application
+    number { application.increment_chats_counter }
   end
 end

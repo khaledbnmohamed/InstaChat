@@ -39,7 +39,7 @@ class Message < ApplicationRecord
     end
   end
 
-  # Not using locks as it's likely to conflict
+  # Not using locks as it's less likely to conflict
   def decrement_messages_counter
     chat.decrement!(:messages_count)
   end

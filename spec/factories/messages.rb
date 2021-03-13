@@ -23,5 +23,6 @@ FactoryBot.define do
   factory :message do
     text { FFaker::Lorem.phrase }
     association :chat
+    number { chat.increment_messages_counter }
   end
 end

@@ -73,33 +73,46 @@ paths:
       tags:
       - chats
       consumes:
-      - chat/json
+      - application/json
       produces:
-      - chat/json
+      - application/json
       parameters:
       - name: application_token
         in: path
         type: integer
         required: true
-      - name: chat
-        in: body
-        schema:
-          type: object
-          properties:
-            name:
-              type: string
       responses:
         '200':
           description: create chat
   "/api/v1/applications/{application_token}/chats/{chat_number}":
     get:
+      summary: get chat
+      tags:
+      - chats
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: application_token
+        in: path
+        type: integer
+        required: true
+      - name: chat_number
+        in: path
+        type: integer
+        required: true
+      responses:
+        '200':
+          description: create chat
+    delete:
       summary: delete chat
       tags:
       - chats
       consumes:
-      - chat/json
+      - application/json
       produces:
-      - chat/json
+      - application/json
       parameters:
       - name: application_token
         in: path
@@ -111,37 +124,10 @@ paths:
         required: true
       responses:
         '200':
-          description: create chat
+          description: delete chat succfully
   "/api/v1/applications/{application_token}/chats/{chat_number}/messages":
-    put:
-      summary: update chat
-      tags:
-      - messages
-      consumes:
-      - chat/json
-      produces:
-      - chat/json
-      parameters:
-      - name: application_token
-        in: path
-        type: integer
-        required: true
-      - name: chat_number
-        in: path
-        type: integer
-        required: true
-      - name: chat
-        in: body
-        schema:
-          type: object
-          properties:
-            name:
-              type: string
-      responses:
-        '200':
-          description: create chat
-    get:
-      summary: search messages
+    post:
+      summary: create message
       tags:
       - messages
       consumes:
@@ -162,8 +148,64 @@ paths:
         schema:
           type: object
           properties:
-            keyword:
+            text:
               type: string
       responses:
         '200':
+          description: create message succefully
+    get:
+      summary: search messages
+      tags:
+      - messages
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: application_token
+        in: path
+        type: integer
+        required: true
+      - name: chat_number
+        in: path
+        type: integer
+        required: true
+      - name: keyword
+        in: path
+        type: string
+        required: true
+      responses:
+        '200':
           description: search message
+  "/api/v1/applications/{application_token}/chats/{chat_number}/messages/{message_number}":
+    put:
+      summary: update message
+      tags:
+      - messages
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: application_token
+        in: path
+        type: integer
+        required: true
+      - name: chat_number
+        in: path
+        type: integer
+        required: true
+      - name: message_number
+        in: path
+        type: integer
+        required: true
+      - name: message
+        in: body
+        schema:
+          type: object
+          properties:
+            text:
+              type: string
+      responses:
+        '200':
+          description: message chat
