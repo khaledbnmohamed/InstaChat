@@ -50,18 +50,20 @@ RSpec.describe '/api/v1/applications', type: :request do
     end
   end
 
-  path '/api/v1/applications/:token' do
+  path '/api/v1/applications/{application_token}' do
     put 'update application' do
       tags 'applications'
       consumes 'application/json'
       produces 'application/json'
 
+      parameter name: :application_token, in: :path, type: :integer, required: true
       parameter name: :application, in: :body, schema: {
         type: :object,
         properties: {
           name: { type: :string }
         }
       }
+
       let(:application) { FactoryBot.create(:application) }
 
       response '200', 'create application' do
@@ -78,18 +80,14 @@ RSpec.describe '/api/v1/applications', type: :request do
     end
   end
 
-  path '/api/v1/applications/:token' do
+  path '/api/v1/applications/{application_token}' do
     get 'get application' do
       tags 'applications'
       consumes 'application/json'
       produces 'application/json'
 
-      parameter name: :application, in: :body, schema: {
-        type: :object,
-        properties: {
-          name: { type: :string }
-        }
-      }
+      parameter name: :application_token, in: :path, type: :integer, required: true
+
       let(:application) { FactoryBot.create(:application) }
 
       response '200', 'create application' do

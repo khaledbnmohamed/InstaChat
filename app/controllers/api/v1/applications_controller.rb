@@ -21,9 +21,7 @@ module Api::V1
     def create
       application = Application.new(application_params)
 
-      unless application.save
-        raise Errors::CustomError.new(:bad_request, 400, application.errors.messages)
-      end
+      raise Errors::CustomError.new(:bad_request, 400, application.errors.messages) unless application.save
 
       render json: ApplicationBlueprint.render(application)
     end
@@ -47,7 +45,7 @@ module Api::V1
 
     # Use callbacks to share common setup or constraints between actions.
     def set_application
-      @application = Application.find_by(number: params[:token])
+      @application = Application.find_by!(number: params[:token])
     end
 
     # Only allow a trusted parameter "white list" through.

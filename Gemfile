@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # Gems should have been locked but I had a compatbility issue
 # hopefully I'll be mentally ready to lock them :) when I'm done
 # with the other requirements
@@ -34,11 +35,10 @@ gem 'bootsnap', '>= 1.4.2', require: false
 
 gem 'go-on-rails', '~> 0.4.0'
 
-gem "responders", '=3.0.1'
+gem 'responders', '=3.0.1'
 
 gem 'elasticsearch-model'
 gem 'elasticsearch-rails'
-
 
 gem 'resque', '=2.0.0'
 gem 'rswag', '~> 2.3.1'

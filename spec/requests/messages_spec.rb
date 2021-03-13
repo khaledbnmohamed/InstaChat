@@ -14,44 +14,46 @@ require 'rails_helper'
 # of tools you can use to make these specs even more expressive, but we're
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
-RSpec.describe '/api/v1/applications/:token/chats', elasticsearch: true, type: :request do
-  # path '/api/v1/applications/:token/chats' do
-  #   post "create chat" do
-  #     tags 'chats'
-  #     consumes 'chat/json'
-  #     produces 'chat/json'
+path '/api/v1/applications/{application_token}/chats/{chat_number}/messages' do
+  post 'create message' do
+    tags 'messages'
+    consumes 'chat/json'
+    produces 'chat/json'
 
-  #     parameter name: :chat, in: :body, schema: {
-  #       type: :object,
-  #       properties: {
-  #         name: { type: :string }
-  #       }
-  #     }
+    parameter name: :application_token, in: :path, type: :integer, required: true
+    parameter name: :chat_number, in: :path, type: :integer, required: true
+    parameter name: :chat, in: :body, schema: {
+      type: :object,
+      properties: {
+        text: { type: :string }
+      }
+    }
+      response '200', 'create chat' do
+        it "updates chat succsfully" do
+          post "/api/v1/chats", params: { chat: { name: "Khaled Awad chat" } }
+          expect(response).to have_http_status(:success)
+          expect(response.parsed_body['name']).to eq("Khaled Awad chat")
+          expect(response.parsed_body).to include("number")
+          expect(response.parsed_body).to include("chats_count")
+          expect(response.parsed_body).to include("number")
+          expect(response.parsed_body).to_not include("id")
+        end
+      end
+    end
+  end
 
-  #     response '200', 'create chat' do
-  #       it "updates chat succsfully" do
-  #         post "/api/v1/chats", params: { chat: { name: "Khaled Awad chat" } }
-  #         expect(response).to have_http_status(:success)
-  #         expect(response.parsed_body['name']).to eq("Khaled Awad chat")
-  #         expect(response.parsed_body).to include("number")
-  #         expect(response.parsed_body).to include("chats_count")
-  #         expect(response.parsed_body).to include("number")
-  #         expect(response.parsed_body).to_not include("id")
-  #       end
-  #     end
-  #   end
-  # end
-
-  path '/api/v1/applications/:token/chats/:number/messages' do
+  path '/api/v1/applications/{application_token}/chats/{chat_number}/messages' do
     put 'update chat' do
-      tags 'chats'
+      tags 'messages'
       consumes 'chat/json'
       produces 'chat/json'
 
+      parameter name: :application_token, in: :path, type: :integer, required: true
+      parameter name: :chat_number, in: :path, type: :integer, required: true
       parameter name: :chat, in: :body, schema: {
         type: :object,
         properties: {
-          name: { type: :string }
+          text: { type: :string }
         }
       }
       let(:chat) { FactoryBot.create(:chat) }
@@ -70,16 +72,19 @@ RSpec.describe '/api/v1/applications/:token/chats', elasticsearch: true, type: :
     end
   end
 
-  path '/api/v1/applications/:token/chats/:number/messages' do
-    get 'search  messages' do
+  path '/api/v1/applications/{application_token}/chats/{chat_number}/messages' do
+    get 'search messages' do
       tags 'messages'
       consumes 'application/json'
       produces 'application/json'
 
-      parameter name: :chat, in: :body, schema: {
+      parameter name: :application_token, in: :path, type: :integer, required: true
+      parameter name: :chat_number, in: :path, type: :integer, required: true
+
+      parameter name: :message, in: :body, schema: {
         type: :object,
         properties: {
-          name: { type: :string }
+          keyword: { type: :string }
         }
       }
       FactoryBot.create_list(:message, 30)
@@ -91,7 +96,6 @@ RSpec.describe '/api/v1/applications/:token/chats', elasticsearch: true, type: :
           get "/api/v1/applications/#{message.chat.application.number}/chats/#{message.chat.number}/messages",
               params: { keyword: 'عربية' }
           expect(response).to have_http_status(:success)
-          byebug
         end
       end
     end

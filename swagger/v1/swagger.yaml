@@ -1,7 +1,7 @@
 ---
 swagger: '2.0'
 info:
-  title: InstChat APIs
+  title: InstaChat APIs
   description: This is the description of the API
   version: v1
 paths:
@@ -25,7 +25,9 @@ paths:
       responses:
         '200':
           description: create application
-  "/api/v1/applications/:token":
+        '400':
+          description: bad request
+  "/api/v1/applications/{application_token}":
     put:
       summary: update application
       tags:
@@ -35,6 +37,10 @@ paths:
       produces:
       - application/json
       parameters:
+      - name: application_token
+        in: path
+        type: integer
+        required: true
       - name: application
         in: body
         schema:
@@ -54,7 +60,28 @@ paths:
       produces:
       - application/json
       parameters:
-      - name: application
+      - name: application_token
+        in: path
+        type: integer
+        required: true
+      responses:
+        '200':
+          description: create application
+  "/api/v1/applications/{application_token}/chats":
+    post:
+      summary: create chat
+      tags:
+      - chats
+      consumes:
+      - chat/json
+      produces:
+      - chat/json
+      parameters:
+      - name: application_token
+        in: path
+        type: integer
+        required: true
+      - name: chat
         in: body
         schema:
           type: object
@@ -63,4 +90,80 @@ paths:
               type: string
       responses:
         '200':
-          description: create application
+          description: create chat
+  "/api/v1/applications/{application_token}/chats/{chat_number}":
+    get:
+      summary: delete chat
+      tags:
+      - chats
+      consumes:
+      - chat/json
+      produces:
+      - chat/json
+      parameters:
+      - name: application_token
+        in: path
+        type: integer
+        required: true
+      - name: chat_number
+        in: path
+        type: integer
+        required: true
+      responses:
+        '200':
+          description: create chat
+  "/api/v1/applications/{application_token}/chats/{chat_number}/messages":
+    put:
+      summary: update chat
+      tags:
+      - messages
+      consumes:
+      - chat/json
+      produces:
+      - chat/json
+      parameters:
+      - name: application_token
+        in: path
+        type: integer
+        required: true
+      - name: chat_number
+        in: path
+        type: integer
+        required: true
+      - name: chat
+        in: body
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+      responses:
+        '200':
+          description: create chat
+    get:
+      summary: search messages
+      tags:
+      - messages
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: application_token
+        in: path
+        type: integer
+        required: true
+      - name: chat_number
+        in: path
+        type: integer
+        required: true
+      - name: message
+        in: body
+        schema:
+          type: object
+          properties:
+            keyword:
+              type: string
+      responses:
+        '200':
+          description: search message

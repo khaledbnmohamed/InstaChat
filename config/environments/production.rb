@@ -122,5 +122,4 @@ Rails.application.configure do
       resource '/api/*', headers: :any, methods: %i[get delete put patch post options], expose: %w[bearer]
     end
   end
-
 end

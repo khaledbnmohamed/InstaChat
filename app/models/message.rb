@@ -26,9 +26,6 @@ class Message < ApplicationRecord
   # relations
   belongs_to :chat, inverse_of: :messages
 
-  # callbacks
-  before_create :increment_messages_counter
-
   # validations
   validates :text, presence: true
 
@@ -42,10 +39,8 @@ class Message < ApplicationRecord
     end
   end
 
-  def increment_messages_counter
-    chat.with_lock do
-      chat.increment!(:messages_count)
-      self.number = chat.messages_count
-    end
+  # Not using locks as it's likely to conflict
+  def decrement_messages_counter
+    chat.decrement!(:messages_count)
   end
 end

@@ -20,18 +20,12 @@ module Errors
     def handled_errors(err)
       case err.class.name
       when 'ActiveRecord::RecordNotFound'
-        respond(:record_not_found, 404, err.message, nil)
-      when 'Pundit::NotAuthorizedError'
-        respond(:forbidden, 403, err.to_s, nil)
+        respond(:record_not_found, 404, 're-check the params, it might be a typo!', nil)
       when 'Errors::CustomError'
         respond(err.error, err.status, err.message, err.extra)
       when 'ArgumentError'
         log_error(err, true)
         respond(:bad_request, 400, err.message, nil)
-      when 'Errors::ServiceUnavailableError'
-        log_error(err, true, { data: err.extra })
-        respond(err.error, err.status, err.message, nil)
-      else
         false
       end
     end

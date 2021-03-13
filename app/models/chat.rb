@@ -27,12 +27,18 @@ class Chat < ApplicationRecord
   has_many :messages, dependent: :restrict_with_exception, inverse_of: :chat
 
   # callbacks
-  before_create :increment_chats_counter
+  before_destroy :decrement_chats_counter
 
-  def increment_chats_counter
-    application.with_lock do
-      application.increment!(:chats_count)
-      self.number = application.chats_count
+  def increment_messages_counter
+    with_lock do
+      increment!(:messages_count)
+      save!
+      messages_count
     end
+  end
+
+  # Not using locks as it's likely to conflict
+  def decrement_chats_counter
+    application.decrement!(:chats_count)
   end
 end

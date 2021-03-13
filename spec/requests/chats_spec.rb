@@ -14,13 +14,14 @@ require 'rails_helper'
 # of tools you can use to make these specs even more expressive, but we're
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
-RSpec.describe '/api/v1/applications/:token/chats', type: :request do
-  path '/api/v1/applications/:token/chats' do
+RSpec.describe '/api/v1/applications/{application_token}/chats', type: :request do
+  path '/api/v1/applications/{application_token}/chats' do
     post 'create chat' do
       tags 'chats'
       consumes 'chat/json'
       produces 'chat/json'
 
+      parameter name: :application_token, in: :path, type: :integer, required: true
       parameter name: :chat, in: :body, schema: {
         type: :object,
         properties: {
@@ -29,69 +30,60 @@ RSpec.describe '/api/v1/applications/:token/chats', type: :request do
       }
 
       response '200', 'create chat' do
-        it 'updates chat succsfully' do
-          post '/api/v1/chats', params: { chat: { name: 'Khaled Awad chat' } }
+        it 'create chat succsfully' do
+          app = FactoryBot.create(:application)
+          post "/api/v1/applications/#{app.number}/chats"
           expect(response).to have_http_status(:success)
-          expect(response.parsed_body['name']).to eq('Khaled Awad chat')
-          expect(response.parsed_body).to include('number')
-          expect(response.parsed_body).to include('chats_count')
-          expect(response.parsed_body).to include('number')
-          expect(response.parsed_body).to_not include('id')
         end
       end
     end
   end
 
-  path '/api/v1/chats/:token' do
-    put 'update chat' do
+  # path '/api/v1/applications/{application_token}/chats/{chat_number}' do
+  #   put 'update chat' do
+  #     tags 'chats'
+  #     consumes 'chat/json'
+  #     produces 'chat/json'
+
+  #     parameter name: :chat, in: :body, schema: {
+  #       type: :object,
+  #       properties: {
+  #         name: { type: :string }
+  #       }
+  #     }
+  #     let(:chat) { FactoryBot.create(:chat) }
+
+  #     response '200', 'create chat' do
+  #       it 'updates chat succsfully' do
+  #         put "/api/v1/applications/#{chat.application.number}/chats/#{chat.number}"
+  #         expect(response).to have_http_status(:success)
+  #         expect(response.parsed_body['name']).to eq('edited app')
+  #         expect(response.parsed_body).to include('number')
+  #         expect(response.parsed_body).to include('chats_count')
+  #         expect(response.parsed_body).to include('number')
+  #         expect(response.parsed_body).to_not include('id')
+  #       end
+  #     end
+  #   end
+  # end
+
+  path '/api/v1/applications/{application_token}/chats/{chat_number}' do
+    get 'delete chat' do
       tags 'chats'
       consumes 'chat/json'
       produces 'chat/json'
 
-      parameter name: :chat, in: :body, schema: {
-        type: :object,
-        properties: {
-          name: { type: :string }
-        }
-      }
+      parameter name: :application_token, in: :path, type: :integer, required: true
+      parameter name: :chat_number, in: :path, type: :integer, required: true
+
       let(:chat) { FactoryBot.create(:chat) }
 
       response '200', 'create chat' do
-        it 'creates chat succsfully' do
-          put "/api/v1/chats/#{chat.number}", params: { chat: { name: 'edited app' } }
+        it 'delete chat succsfully  decrement coun' do
+          app = chat.application
+          delete "/api/v1/applications/#{app.number}/chats/#{chat.number}"
           expect(response).to have_http_status(:success)
-          expect(response.parsed_body['name']).to eq('edited app')
-          expect(response.parsed_body).to include('number')
-          expect(response.parsed_body).to include('chats_count')
-          expect(response.parsed_body).to include('number')
-          expect(response.parsed_body).to_not include('id')
-        end
-      end
-    end
-  end
-
-  path '/api/v1/chats/:token' do
-    get 'get chat' do
-      tags 'chats'
-      consumes 'chat/json'
-      produces 'chat/json'
-
-      parameter name: :chat, in: :body, schema: {
-        type: :object,
-        properties: {
-          name: { type: :string }
-        }
-      }
-      let(:chat) { FactoryBot.create(:chat) }
-
-      response '200', 'create chat' do
-        it 'get chat succsfully' do
-          get "/api/v1/chats/#{chat.number}"
-          expect(response).to have_http_status(:success)
-          expect(response.parsed_body['name']).to eq(chat.name)
-          expect(response.parsed_body['number']).to eq(chat.number)
-          expect(response.parsed_body['chats_count']).to eq(chat.chats_count)
-          expect(response.parsed_body).to_not include('id')
+          expect(app.reload.chats_count).to eq(0)
         end
       end
     end

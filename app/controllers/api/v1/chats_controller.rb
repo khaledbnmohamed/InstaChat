@@ -13,43 +13,43 @@ module Api::V1
     end
 
     # GET /chats/1
-    def show; end
+    def show
+      render json: ChatBlueprint.render(@chat)
+    end
 
     # GET /chats/1/edit
     def edit; end
 
     # POST /chats
     def create
-      ChatCreationJob.perform_later(application_id: @application.id)
-
-      render json: 'Chat enqueued'
+      creation_response = ChatCreationService.create_chat(@application)
+      render json: creation_response
     end
 
     # PATCH/PUT /chats/1
     def update
-      unless @chat.update(chat_params)
-        raise Errors::CustomError.new(:bad_request, 400, @chat.errors.messages)
-      end
+      raise Errors::CustomError.new(:bad_request, 400, @chat.errors.messages) unless @chat.update(chat_params)
 
       render json: ChatBlueprint.render(@chat)
     end
 
     # DELETE /chats/1
     def destroy
-      @chat.destroy
-      redirect_to chats_url, notice: 'Chat was successfully destroyed.'
+      raise Errors::CustomError.new(:bad_request, 400, @chat.errors.messages) unless @chat.destroy
+
+      render json: ChatBlueprint.render(@chat)
     end
 
     private
 
     # Use callbacks to share common setup or constraints between actions.
     def set_application
-      @application = Application.find_by(number: params[:application_token])
+      @application = Application.find_by!(number: params[:application_token])
     end
 
     # Use callbacks to share common setup or constraints between actions.
     def set_chat
-      @chat = Chat.find_by(number: params[:number])
+      @chat = @application.chats.find_by!(number: params[:id])
     end
   end
 end

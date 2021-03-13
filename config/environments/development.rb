@@ -32,7 +32,6 @@ Rails.application.configure do
 
   config.action_controller.asset_host = ENV['DEVELOPMENT_ASSET_HOST']
 
-
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
 
@@ -69,5 +68,4 @@ Rails.application.configure do
       resource '/api/*', headers: :any, methods: %i[get delete put patch post options], expose: %w[bearer]
     end
   end
-
 end

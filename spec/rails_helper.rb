@@ -8,12 +8,9 @@ require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../config/environment', __dir__)
 # Prevent database truncation if the environment is not test
-unless Rails.env.test?
-  abort("The Rails environment isn't running in test mode!")
-end
+abort("The Rails environment isn't running in test mode!") unless Rails.env.test?
 require 'rspec/rails'
 require 'webmock/rspec'
-require 'pundit/rspec'
 
 WebMock.disable_net_connect!(allow_localhost: true)
 

@@ -18,18 +18,18 @@ require 'elasticsearch/extensions/test/cluster'
 
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
-  config.before :all, elasticsearch: true do
-    unless Elasticsearch::Extensions::Test::Cluster.running?(on: 9250)
-      Elasticsearch::Extensions::Test::Cluster.start(port: 9250, nodes: 1, timeout: 120)
-    end
-  end
+  # config.before :all, elasticsearch: true do
+  #   unless Elasticsearch::Extensions::Test::Cluster.running?(on: 9250)
+  #     Elasticsearch::Extensions::Test::Cluster.start(port: 9250, nodes: 1, timeout: 120)
+  #   end
+  # end
 
-  # Stop elasticsearch cluster after test run
-  config.after :suite do
-    if Elasticsearch::Extensions::Test::Cluster.running?(on: 9250)
-      Elasticsearch::Extensions::Test::Cluster.stop(port: 9250, nodes: 1)
-    end
-  end
+  # # Stop elasticsearch cluster after test run
+  # config.after :suite do
+  #   if Elasticsearch::Extensions::Test::Cluster.running?(on: 9250)
+  #     Elasticsearch::Extensions::Test::Cluster.stop(port: 9250, nodes: 1)
+  #   end
+  # end
 
   # Create indexes for all elastic searchable models
   config.before :each, elasticsearch: true do

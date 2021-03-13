@@ -22,4 +22,12 @@ class Application < ApplicationRecord
 
   # validations
   validates :name, presence: true
+
+  def increment_chats_counter
+    with_lock do
+      increment!(:chats_count)
+      save!
+      chats_count
+    end
+  end
 end

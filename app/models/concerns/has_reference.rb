@@ -19,9 +19,7 @@ module HasReference
       validates attribute, uniqueness: true
 
       before_create do
-        unless send("#{attribute}?")
-          send("#{attribute}=", generate_unique_reference(attribute))
-        end
+        send("#{attribute}=", generate_unique_reference(attribute)) unless send("#{attribute}?")
       end
     end
     # rubocop:enable Namin/PredicateName
