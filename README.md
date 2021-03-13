@@ -61,3 +61,13 @@ end
 ## TODOs:
 1. Rspecs on elastic search 
 
+
+## Some resources I need to return to:
+
+* https://medium.com/@rowanoulton/testing-elasticsearch-in-rails-22a3296d989
+
+* https://expertise.jetruby.com/ruby-go-how-to-make-them-work-together-585af6e0473
+
+* https://github.com/railstack/go-on-rails
+
+* https://medium.flatstack.com/one-of-our-projects-contains-elasticsearch-as-a-fulltext-search-engine-c660a28246fe
