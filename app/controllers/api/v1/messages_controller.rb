@@ -14,7 +14,7 @@ module Api::V1
                    @chat.messages
                  end
 
-      render_option = params[:keyword].present? ? messages[0]['_source'] : messages
+      render_option = params[:keyword].present? ? elastic_search_result(messages) : messages
       render json: { chat: ChatBlueprint.render_as_json(@chat),
                      messages: MessageBlueprint.render_as_json(render_option) }
     end
@@ -63,6 +63,10 @@ module Api::V1
     # Only allow a trusted parameter "white list" through.
     def message_params
       params.require(:message).permit(:text)
+    end
+
+    def elastic_search_result(messages)
+      messages.present? ? messages[0]['_source'] : []
     end
   end
 end
