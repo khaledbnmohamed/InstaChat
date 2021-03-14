@@ -4,8 +4,8 @@
 
 * Good news! the project is dockerized so count to 3 and this section will be done
 * After forking the repo, run `docker-compose up`
-* When the server is up and running use (http://localhost:3000) to check that everything looks good
-* **API DOCUMENTATION** (http://localhost:3000/api-docs) if you are not familiar with Swagger Api Documentation (hopefully you are because this [Introductory video](https://www.youtube.com/watch?v=7MS1Z_1c5CU) is 10 mins long :) )
+* When the server is up and running use [localhost:3000](http://localhost:3000) to check that everything looks good
+* [**API DOCUMENTATION**](http://localhost:3000/api-docs) if you are not familiar with Swagger Api Documentation (hopefully you are because this [Introductory video](https://www.youtube.com/watch?v=7MS1Z_1c5CU) is 10 mins long :) )
 
 ## Business Requirements
 
