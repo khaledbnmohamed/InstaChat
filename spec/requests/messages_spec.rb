@@ -14,7 +14,6 @@ require 'rails_helper'
 # of tools you can use to make these specs even more expressive, but we're
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 RSpec.describe '/api/v1/applications/{application_token}/chats/{chat_number}/messages' do
-
   path '/api/v1/applications/{application_token}/chats/{chat_number}/messages' do
     post 'create message' do
       tags 'messages'
@@ -29,17 +28,18 @@ RSpec.describe '/api/v1/applications/{application_token}/chats/{chat_number}/mes
           text: { type: :string }
         }
       }
-        response '200', 'create message succefully' do
-          let(:chat) { FactoryBot.create(:chat) }
+      response '200', 'create message succefully' do
+        let(:chat) { FactoryBot.create(:chat) }
 
-          it "create message succsfully" do
-            post "/api/v1/applications/#{chat.application.number}/chats/#{chat.number}/messages", params: { message: { text: "message" } }
-            expect(response).to have_http_status(:success)
-            messages_count = chat.reload.messages_count
-            expect(response.parsed_body['message']).to eq("Message with number: #{messages_count} will be created shorlty")
-            expect(response.parsed_body['number']).to eq(messages_count)
-          end
+        it 'create message succsfully' do
+          post "/api/v1/applications/#{chat.application.number}/chats/#{chat.number}/messages",
+               params: { message: { text: 'message' } }
+          expect(response).to have_http_status(:success)
+          messages_count = chat.reload.messages_count
+          expect(response.parsed_body['message']).to eq("Message with number: #{messages_count} will be created shorlty")
+          expect(response.parsed_body['number']).to eq(messages_count)
         end
+      end
     end
 
     path '/api/v1/applications/{application_token}/chats/{chat_number}/messages/{message_number}' do
@@ -58,11 +58,13 @@ RSpec.describe '/api/v1/applications/{application_token}/chats/{chat_number}/mes
             text: { type: :string }
           }
         }
-        let(:chat) { FactoryBot.create(:chat) }
-
+        let(:message) { FactoryBot.create(:message) }
         response '200', 'message chat' do
           it 'updates message succsfully' do
-            put "/api/v1/applications/#{chat.application.number}/chats/#{chat.number}/messages", params: { message: { text: 'edited app' } }
+            stub_request(:put, 'http://elastic_search:9200/text_index/').to_return(status: 200, body: '', headers: {})
+            chat = message.chat
+            put "/api/v1/applications/#{chat.application.number}/chats/#{chat.number}/messages/#{message.number}",
+                params: { message: { text: 'edited app' } }
             expect(response).to have_http_status(:success)
             expect(response.parsed_body['name']).to eq('edited app')
             expect(response.parsed_body).to include('number')
@@ -90,7 +92,6 @@ RSpec.describe '/api/v1/applications/{application_token}/chats/{chat_number}/mes
 
         response '200', 'search message' do
           it 'find message succsfully' do
-
             get "/api/v1/applications/#{message.chat.application.number}/chats/#{c}/#{message.chat.number}/messages",
                 params: { keyword: 'عربية' }
             expect(response).to have_http_status(:success)
