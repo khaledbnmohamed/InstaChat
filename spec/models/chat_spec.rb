@@ -2,24 +2,23 @@
 
 # == Schema Information
 #
-# Table name: applications
+# Table name: chats
 #
-#  id                :bigint           not null, primary key
-#  area              :string
-#  building_number   :string
-#  email             :string           not null
-#  latitude          :string
-#  location          :string
-#  longitude         :string
-#  mobile            :string           not null
-#  name              :string           not null
-#  neighborhood      :string
-#  password_digest   :string           not null
-#  primary_address   :string           not null
-#  secondary_address :string
-#  street            :string
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
+#  id             :bigint           not null, primary key
+#  messages_count :integer          default(0)
+#  number         :string(255)
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  application_id :bigint           not null
+#
+# Indexes
+#
+#  index_chats_on_application_id  (application_id)
+#  index_chats_on_number          (number)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (application_id => applications.id)
 #
 require 'rails_helper'
 
