@@ -82,7 +82,7 @@ RSpec.describe '/api/v1/applications/{application_token}/chats/{chat_number}/mes
 
         parameter name: :application_token, in: :path, type: :integer, required: true
         parameter name: :chat_number, in: :path, type: :integer, required: true
-        parameter name: :keyword, in: :path, type: :string, required: false
+        parameter name: :keyword, in: :query, type: :string
 
         FactoryBot.create_list(:message, 30)
         let(:message) { FactoryBot.create(:message, text: 'رسالة عربية') }
