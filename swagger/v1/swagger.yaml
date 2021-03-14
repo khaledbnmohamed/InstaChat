@@ -171,9 +171,8 @@ paths:
         type: integer
         required: true
       - name: keyword
-        in: path
+        in: query
         type: string
-        required: true
       responses:
         '200':
           description: search message
