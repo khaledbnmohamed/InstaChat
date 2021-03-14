@@ -63,7 +63,7 @@ end
 
 ## Documentation in swagger page:
 
-[!Documentation](api_documentation.png)
+![Image](api_documentation.png)
 ## Some resources I need to return to:
 
 * https://medium.com/@rowanoulton/testing-elasticsearch-in-rails-22a3296d989
