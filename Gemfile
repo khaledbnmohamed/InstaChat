@@ -33,7 +33,7 @@ gem 'mysql2', '>= 0.4.4'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 
-gem 'go-on-rails', '~> 0.4.0'
+gem 'sidekiq'
 
 gem 'responders', '=3.0.1'
 

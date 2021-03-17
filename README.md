@@ -60,6 +60,12 @@ end
 
 ## TODOs:
 1. Rspecs on elastic search 
+2. make better indices
+3. locks 
+4. use go
+5. benchmarking
+6.
+
 
 ## Documentation in swagger page:
 

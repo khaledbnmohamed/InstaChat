@@ -5,6 +5,7 @@ default: &default
     host: <%= ENV['DEVELOPMENT_INSTACHAT_REDIS_HOST'] %>
     port:  <%= ENV['DEVELOPMENT_INSTACHAT_REDIS_PORT'] %>
     namespace: <%= ENV['DEVELOPMENT_REDIS_NAMESPACE'] %>
+    url: <%= ENV['DEVELOPMENT_INSTACHAT_REDIS_URL'] %>
     rescue:
       db: <%= ENV['DEVELOPMENT_INSTACHAT_REDIS_DB'] %>
 

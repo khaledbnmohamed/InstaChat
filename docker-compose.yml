@@ -60,18 +60,18 @@ services:
       - instachat_redis
 
 
-  instachat_worker:
-    <<: *instachat
-    command: bundle exec rake environment resque:work QUEUE=*
-    container_name: instachat_worker
-    hostname: instachat_worker
-    ports: []
-    entrypoint: ""
-    depends_on:
-      - instachat_development_database
-      - instachat_test_database
-      - instachat_redis
-      - instachat
+  # instachat_worker:
+  #   <<: *instachat
+  #   command: bundle exec rake environment resque:work QUEUE=*
+  #   container_name: instachat_worker
+  #   hostname: instachat_worker
+  #   ports: []
+  #   entrypoint: ""
+  #   depends_on:
+  #     - instachat_development_database
+  #     - instachat_test_database
+  #     - instachat_redis
+  #     - instachat
 
   instachat_development_database: &database
     image:  mysql:5.7.33
@@ -108,3 +108,7 @@ services:
     container_name: instachat_redis
     image: redis
     restart: always
+    ports:
+     - '6379:6379'
+    expose:
+      - '6379'
