@@ -52,19 +52,19 @@ end
 ## Environment
 
 * Ruby
-* Rails 
+* Rails
 * Redis
 * Resque worker
-* Elasticsearch 
+* Elasticsearch
 
 
 ## TODOs:
-1. Rspecs on elastic search 
+1. Rspecs on elastic search
 2. make better indices
-3. locks 
+3. locks
 4. use go
 5. benchmarking
-6.
+6. reindexing by wether calling es from go or rails endpoint
 
 
 ## Documentation in swagger page:

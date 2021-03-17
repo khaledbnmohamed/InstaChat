@@ -9,29 +9,33 @@ import (
 
 type InsetionToDBWorker struct {
 	*Job
-	chat_id float64
+	chatID float64
 	newMessage string
+	number float64
 }
 
 func (work *InsetionToDBWorker) Perform() {
 	db, err := sql.Open("mysql", "instachat:instachat@/instachat_development")
-	if err != nil {
-		panic(err)
-	}
-	// See "Important settings" section.
+	if err != nil { panic(err.Error()) }
+
+
 	db.SetConnMaxLifetime(time.Minute * 3)
 	db.SetMaxOpenConns(10)
 	db.SetMaxIdleConns(10)
-	statement, _ := db.Prepare("INSERT INTO messages (chat_id, text,created_at,updated_at) VALUES (?,? , ?,?)")
-	statement.Exec(work.chat_id, work.newMessage,"2019-11-20 22:00:16.835008","2019-11-20 22:00:16.835008")
+
+	statement, err := db.Prepare("INSERT INTO messages (chat_id, number, text,created_at,updated_at) VALUES (?,?,?,?,?)")
+	if err != nil { panic(err.Error()) }
+
+	statement.Exec(work.chatID, work.number, work.newMessage, time.Now(), time.Now())
 
 	fmt.Printf("Processed message: %s\n", work.newMessage)
 }
 
 func NewInsetionToDBWorker(job Job) Worker {
-	fmt.Println("khalodaaaaaaaaa for jobs...", job.Args)
 
-	newMessage := "2323" 
-	chat_id := 22.1
-   return &InsetionToDBWorker{&job, chat_id, newMessage}
+	chatID := job.Args[0].(float64)
+	newMessage := job.Args[1].(string)
+	number := job.Args[2].(float64)
+
+   return &InsetionToDBWorker{&job, chatID, newMessage,number}
 }

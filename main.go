@@ -2,9 +2,8 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/garyburd/redigo/redis"
-	"log"
+	"fmt"
 )
 
 
@@ -15,39 +14,24 @@ func connect() (redis.Conn, error) {
 func ListenForJobs(jobs chan Job) {
 	// connect to redis
 	conn, err := connect()
-	if err != nil {
-		log.Fatal(err)
-	}
+	if err != nil { panic(err.Error()) }
 	defer conn.Close()
 	fmt.Println("Waiting for jobs...")
 
 	for {
-		// pop a value from the queue
 		reply, err := redis.Values(conn.Do("blpop", "instachat:queue:default", 0))
-		if err != nil {
-			log.Fatal(err)
-		}
+		if err != nil { panic(err.Error())  }
 
-		// unpackage the reply
 		var queue string
-		var body string
+		var body []byte
 		if _, err := redis.Scan(reply, &queue, &body); err != nil {
-			log.Println(err)
+			fmt.Println(err)
 		}
-
-
-		// bytes["c"]
-		// parse the json
-
 		job := new(Job)
-		bytes := []byte(body)
-		
-		err = json.Unmarshal(bytes, &job)
-		if err != nil {
-			log.Print(err)
-		}
 
-		// stuff it down the channel
+		err = json.Unmarshal(body, &job)
+		if err != nil { panic(err.Error()) }
+
 		fmt.Printf("Found job: %s(%s)\n", job.Class, job.Jid)
 
 		jobs <- *job
@@ -57,23 +41,19 @@ func ListenForJobs(jobs chan Job) {
 type WorkerFactory func(Job) Worker
 
 func PerformJobs(jobs chan Job) {
-	// keep a map of worker factories by name
 	workers := make(map[string]WorkerFactory)
 
-	// register our worker
-
-	workers["ActiveJob::QueueAdapters::SidekiqAdapter::JobWrapper"] = NewInsetionToDBWorker
+	workers["MessageCreationWorker"] = NewInsetionToDBWorker
+	workers["ChatCreationWorker"] = NewInsetionChatToDBWorker
 
 	for {
 		// wait for a job
 
 		job := <-jobs
 
-		// create an instance of the appropriate worker
 		factory := workers[job.Class]
 		worker := factory(job)
 
-		// do the work asynchronously
 		go worker.Perform()
 	}
 }
