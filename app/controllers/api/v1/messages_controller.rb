@@ -66,7 +66,13 @@ module Api::V1
     end
 
     def elastic_search_result(messages)
-      messages.present? ? messages[0]['_source'] : []
+      hits = []
+      if messages.present?
+        messages.each do |m|
+          hits << m["_source"]
+        end
+      end
     end
+
   end
 end
