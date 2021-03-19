@@ -2,6 +2,8 @@ package main
 
 import (
 	"database/sql"
+	"net/http"
+	"io/ioutil"
 	"time"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
@@ -29,6 +31,15 @@ func (work *InsetionToDBWorker) Perform() {
 	statement.Exec(work.chatID, work.number, work.newMessage, time.Now(), time.Now())
 
 	fmt.Printf("Processed message: %s\n", work.newMessage)
+	resp, err := http.Get("http://localhost:3000/api/v1/messages/reindex")
+	if err != nil { panic(err.Error()) }
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil { panic(err.Error()) }
+
+	sb := string(body)
+	fmt.Printf("Indexed the message: %s\n", sb)
+
 }
 
 func NewInsetionToDBWorker(job Job) Worker {

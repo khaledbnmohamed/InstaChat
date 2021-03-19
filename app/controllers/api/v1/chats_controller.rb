@@ -22,7 +22,15 @@ module Api::V1
 
     # POST /chats
     def create
-      creation_response = ChatCreationService.create_chat(@application)
+      begin
+        creation_response = ChatCreationService.create_chat(@application)
+      rescue ActiveRecord::StaleObjectError => e
+        Rails.logger.info "============= Chat Version Error =============== "
+        Rails.logger.info e
+        Rails.logger.info "============= Chat Version Error =============== "
+        creation_response = ChatCreationService.create_chat(@application)
+      end
+
       render json: creation_response
     end
 

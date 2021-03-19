@@ -21,9 +21,12 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :applications, param: :token do
         resources :chats, params: :number do
-          resources :messages, params: :number
+          resources :messages, params: :number do
+
+          end
         end
       end
+      get 'messages/reindex', to: 'messages#reindex'
     end
   end
 end
