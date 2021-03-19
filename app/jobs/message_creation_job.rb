@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class MessageCreationJob < ApplicationJob
-  queue_as :messages
+  queue_as :default
 
   def perform(chat_id:, text:, number:)
     message = Message.new(chat_id: chat_id, text: text, number: number)

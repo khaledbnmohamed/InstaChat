@@ -4,12 +4,13 @@
 #
 # Table name: applications
 #
-#  id          :bigint           not null, primary key
-#  chats_count :integer          default(0)
-#  name        :string(255)      not null
-#  number      :string(255)      not null
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
+#  id           :bigint           not null, primary key
+#  chats_count  :integer          default(0)
+#  lock_version :integer
+#  name         :string(255)      not null
+#  number       :string(255)      not null
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
 #
 # Indexes
 #
@@ -24,10 +25,8 @@ class Application < ApplicationRecord
   validates :name, presence: true
 
   def increment_chats_counter
-    with_lock do
-      increment!(:chats_count)
-      save!
-      chats_count
-    end
+    increment!(:chats_count)
+    save!
+    chats_count
   end
 end

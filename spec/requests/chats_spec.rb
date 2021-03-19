@@ -29,6 +29,14 @@ RSpec.describe '/api/v1/applications/{application_token}/chats', type: :request 
           post "/api/v1/applications/#{app.number}/chats"
           expect(response).to have_http_status(:success)
         end
+
+        it 'when clashes happens it should retry' do
+          app = FactoryBot.create(:application)
+          app.chats_count += 1
+          post "/api/v1/applications/#{app.number}/chats"
+          app.save!
+          expect(response).to have_http_status(:success)
+        end
       end
     end
   end

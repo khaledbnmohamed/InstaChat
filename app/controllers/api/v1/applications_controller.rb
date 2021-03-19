@@ -38,7 +38,7 @@ module Api::V1
     # DELETE /applications/1
     def destroy
       @application.destroy
-      redirect_to applications_url, notice: 'Application was successfully destroyed.'
+      render json: ApplicationBlueprint.render(@application)
     end
 
     private

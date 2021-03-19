@@ -2,7 +2,7 @@
 
 module Api::V1
   class MessagesController < ::Api::BaseController
-    before_action :set_application, :set_chat
+    before_action :set_application, :set_chat, except: :reindex
 
     before_action :set_message, only: %i[show edit update destroy]
 
@@ -27,7 +27,15 @@ module Api::V1
 
     # POST /messages
     def create
-      creation_response = MessageCreationService.create_message(@chat, message_params[:text])
+      begin
+        creation_response = MessageCreationService.create_message(@chat, message_params[:text])
+      rescue ActiveRecord::StaleObjectError => e
+        Rails.logger.info "============= Message Version Error =============== "
+        Rails.logger.info e
+        Rails.logger.info "============= Message Version Error =============== "
+        creation_response = MessageCreationService.create_message(@chat, message_params[:text])
+      end
+
       render json: creation_response
     end
 
@@ -41,7 +49,13 @@ module Api::V1
     # DELETE /messages/1
     def destroy
       @message.destroy
-      redirect_to messages_url, notice: 'Message was successfully destroyed.'
+      render json: MessageBlueprint.render(@message)
+    end
+
+    def reindex
+      last_inserted_message = Message.last
+      last_inserted_message.__elasticsearch__.index_document
+      render json: MessageBlueprint.render(last_inserted_message)
     end
 
     private
@@ -66,7 +80,14 @@ module Api::V1
     end
 
     def elastic_search_result(messages)
-      messages.present? ? messages[0]['_source'] : []
+      hits = []
+      if messages.present?
+        messages.each do |m|
+          hits << m["_source"]
+        end
+      end
+      hits
     end
+
   end
 end

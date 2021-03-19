@@ -48,30 +48,49 @@ services:
     command: ["bundle", "exec", "rake" , "elasticsearch:build_index"]
     command: ["bundle", "exec", "rails","server","-b","0.0.0.0","-p","3000"]
 
+  go-app:
+    image: golang:1.16.2
+    container_name: go_app
+    tty: true
+    stdin_open: true
+    build:
+      context: ./go_app
+      dockerfile: Dockerfile
+    env_file: .env
+    links:
+      - elastic_search
+      - instachat_redis
+      - instachat
+    depends_on:
+      - elastic_search
+      - instachat_redis
+      - instachat
 
   elastic_search:
     image: elasticsearch:5.4.0-alpine
     restart: always
     ports:
       - "9200:9200"
+    expose:
+      - "9200"
     volumes:
       - ./volumes/es:/usr/share/elasticsearch/data
     depends_on:
       - instachat_redis
 
 
-  instachat_worker:
-    <<: *instachat
-    command: bundle exec rake environment resque:work QUEUE=*
-    container_name: instachat_worker
-    hostname: instachat_worker
-    ports: []
-    entrypoint: ""
-    depends_on:
-      - instachat_development_database
-      - instachat_test_database
-      - instachat_redis
-      - instachat
+  # instachat_worker:
+  #   <<: *instachat
+  #   command: bundle exec rake environment resque:work QUEUE=*
+  #   container_name: instachat_worker
+  #   hostname: instachat_worker
+  #   ports: []
+  #   entrypoint: ""
+  #   depends_on:
+  #     - instachat_development_database
+  #     - instachat_test_database
+  #     - instachat_redis
+  #     - instachat
 
   instachat_development_database: &database
     image:  mysql:5.7.33
@@ -108,3 +127,7 @@ services:
     container_name: instachat_redis
     image: redis
     restart: always
+    ports:
+     - '6379:6379'
+    expose:
+      - '6379'

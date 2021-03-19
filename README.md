@@ -1,5 +1,14 @@
 # InstaChat is a demo chat creation tool for applications with elastic search
 
+
+## CHANGELOG V2.0
+
+1) Change from standard rails active job with resque to Sidekiq for background jobs
+2) Adding Go app that consumes Redis queue for creating both **Chat** and **Messages** and remove their implementation from the rails services
+3) Add elastic search **partial matching**
+4) Add a new endpoint to re-index the messages created from the go app (because elastic search callbacks won't be triggered from the database level changes made by go app)
+5) Replace the pessimistic locking mechanism with optimistic locking using the default lock_verison for rails and handle stale object errors with **retry** and hopefully, 1 retry is enough
+6) Minor Code enhancements
 ## Make it work !
 
 * Good news! the project is dockerized so count to 3 and this section will be done
@@ -52,14 +61,16 @@ end
 ## Environment
 
 * Ruby
-* Rails 
+* Rails
 * Redis
 * Resque worker
-* Elasticsearch 
-
+* Elasticsearch
+* Go App
 
 ## TODOs:
-1. Rspecs on elastic search 
+1. Rspecs on elastic search
+2. make better indices
+5. benchmarking
 
 ## Documentation in swagger page:
 
