@@ -27,7 +27,7 @@ func (work *InsetionChatToDBWorker) Perform() {
 
 	statement.Exec(work.applicaitonID, work.number, time.Now(), time.Now())
 
-	fmt.Printf("Processed chat: %f\n", work.number)
+	fmt.Printf("Added chat: %f\n", work.number)
 }
 
 func NewInsetionChatToDBWorker(job Job) Worker {

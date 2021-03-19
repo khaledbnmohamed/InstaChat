@@ -4,11 +4,14 @@ import (
 	"encoding/json"
 	"github.com/garyburd/redigo/redis"
 	"fmt"
+	"os"
 )
 
 
 func connect() (redis.Conn, error) {
-	return redis.Dial("tcp","localhost:6379")
+	redisUrl := os.Getenv("DEVELOPMENT_REDIS_URL_GO_APP")
+
+	return redis.Dial("tcp", redisUrl)
 }
 
 func ListenForJobs(jobs chan Job) {

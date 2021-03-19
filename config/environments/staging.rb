@@ -85,12 +85,6 @@ Rails.application.configure do
 
   config.logger = Logger.new(STDOUT) config.logger.level = Logger::DEBUG
 
-  Rails.logger.info "========= SSO Part Is Done ========="
-  Rails.logger.info "========= SSO Part Is Done ========="
-  Rails.logger.info "========= SSO Part Is Done ========="
-  Rails.logger.info "========= SSO Part Is Done ========="
-  Rails.logger.info "========= SSO Part Is Done ========="
-
   if ENV["RAILS_LOG_TO_STDOUT"].present?
     logger           = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter

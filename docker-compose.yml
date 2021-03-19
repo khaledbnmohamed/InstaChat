@@ -48,6 +48,22 @@ services:
     command: ["bundle", "exec", "rake" , "elasticsearch:build_index"]
     command: ["bundle", "exec", "rails","server","-b","0.0.0.0","-p","3000"]
 
+  go-app:
+    image: golang:1.16.2
+    tty: true
+    stdin_open: true
+    build:
+      context: .
+      args:
+        APP_USER_ID: ${APP_USER_ID}
+    # command: go get
+    # command: go install
+
+    command: bash ./instchat_endpoints
+    links:
+      - elastic_search
+      - instachat_redis
+      - instachat
 
   elastic_search:
     image: elasticsearch:5.4.0-alpine
