@@ -54,6 +54,8 @@ services:
     restart: always
     ports:
       - "9200:9200"
+    expose:
+      - "9200"
     volumes:
       - ./volumes/es:/usr/share/elasticsearch/data
     depends_on:

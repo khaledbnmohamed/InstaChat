@@ -5,6 +5,7 @@
 # Table name: chats
 #
 #  id             :bigint           not null, primary key
+#  lock_version   :integer
 #  messages_count :integer          default(0)
 #  number         :string(255)
 #  created_at     :datetime         not null

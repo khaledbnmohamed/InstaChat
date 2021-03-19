@@ -5,6 +5,7 @@
 # Table name: chats
 #
 #  id             :bigint           not null, primary key
+#  lock_version   :integer
 #  messages_count :integer          default(0)
 #  number         :string(255)
 #  created_at     :datetime         not null
@@ -30,11 +31,9 @@ class Chat < ApplicationRecord
   before_destroy :decrement_chats_counter
 
   def increment_messages_counter
-    with_lock do
-      increment!(:messages_count)
-      save!
-      messages_count
-    end
+    increment!(:messages_count)
+    save!
+    messages_count
   end
 
   # Not using locks as it's less likely to conflict
