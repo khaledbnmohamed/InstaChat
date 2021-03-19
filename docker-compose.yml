@@ -50,17 +50,18 @@ services:
 
   go-app:
     image: golang:1.16.2
+    container_name: go_app
     tty: true
     stdin_open: true
     build:
-      context: .
-      args:
-        APP_USER_ID: ${APP_USER_ID}
-    # command: go get
-    # command: go install
-
-    command: bash ./instchat_endpoints
+      context: ./go_app
+      dockerfile: Dockerfile
+    env_file: .env
     links:
+      - elastic_search
+      - instachat_redis
+      - instachat
+    depends_on:
       - elastic_search
       - instachat_redis
       - instachat
