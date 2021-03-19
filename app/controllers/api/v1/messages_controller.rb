@@ -49,7 +49,7 @@ module Api::V1
     # DELETE /messages/1
     def destroy
       @message.destroy
-      redirect_to messages_url, notice: 'Message was successfully destroyed.'
+      render json: MessageBlueprint.render(@message)
     end
 
     def reindex
