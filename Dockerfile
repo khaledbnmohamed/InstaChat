@@ -26,6 +26,8 @@ RUN useradd -md ${USER_HOME_DIRECTORY} -u ${APP_USER_ID} -s /bin/bash ${APP_USER
     chown -R ${APP_USER}:${APP_USER} ${APP_PATH} ${BUNDLED_GEMS_PATH} ${NODE_MODULES_DIR} ${CACHE_DIR} ${PACKS_DIR}
 
 
+RUN apt-get update && apt-get -y install cron
+
 # Copy entrypoint to docker home directory
 WORKDIR ${USER_HOME_DIRECTORY}
 
@@ -40,6 +42,7 @@ RUN chmod +x docker-entrypoint.sh
 USER ${APP_USER}
 
 WORKDIR ${APP_PATH}
+
 
 # Left for debugging
 # CMD while true ; do sleep 1 ; done

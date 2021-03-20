@@ -22,7 +22,6 @@ Rails.application.routes.draw do
       resources :applications, param: :token do
         resources :chats, params: :number do
           resources :messages, params: :number do
-
           end
         end
       end

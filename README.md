@@ -8,7 +8,16 @@
 3) Add elastic search **partial matching**
 4) Add a new endpoint to re-index the messages created from the go app (because elastic search callbacks won't be triggered from the database level changes made by go app)
 5) Replace the pessimistic locking mechanism with optimistic locking using the default lock_verison for rails and handle stale object errors with **retry** and hopefully, 1 retry is enough
-6) Minor Code enhancements
+6) Use **redis db** in the creation process for chats and messages, keep all the interatcion with redis for better avaibility and then sync the values from redis cache to the main sql db every 1 hour
+7) Minor Code enhancements
+
+## System flow
+
+1) Creating new application, creates a new record in the db and return application number 
+2) The user uses this number to create a new chat, system check if this application has a value in redis database, if not create a new one with `key : applicaiton.number, value: application.chats_count +1` and then use the same incremtnal method at any chat creation 
+3) The user tries to create new message, we do the same as step *2* checks redis db for a matching record of the chat, if not create a new one with `key : chat.number, value: chat.messags_count +1` and then use the same incremtnal method at any message creation 
+4) Each 1 hour run a rake task that sync the sql database with redis database
+
 ## Make it work !
 
 * Good news! the project is dockerized so count to 3 and this section will be done
