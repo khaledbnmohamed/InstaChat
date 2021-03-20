@@ -16,6 +16,8 @@
 1) Creating new application, creates a new record in the db and return application number 
 2) The user uses this number to create a new chat, system check if this application has a value in redis database, if not create a new one with `key : applicaiton.number, value: application.chats_count +1` and then use the same incremtnal method at any chat creation 
 3) The user tries to create new message, we do the same as step *2* checks redis db for a matching record of the chat, if not create a new one with `key : chat.number, value: chat.messags_count +1` and then use the same incremtnal method at any message creation 
+4) Creating new chat or new message,creates a new job that enqueud in redis queue and then consumed from Go app and inserted into the DB from the Go app
+5) On successful insertion, the Go app calls an Elasticsearch re-indexing endpoint in rails app
 4) Each 1 hour run a rake task that sync the sql database with redis database
 
 ## Make it work !
