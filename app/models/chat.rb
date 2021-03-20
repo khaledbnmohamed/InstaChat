@@ -30,10 +30,28 @@ class Chat < ApplicationRecord
   # callbacks
   before_destroy :decrement_chats_counter
 
+  #-- Callbacks
+  after_update :update_chats_cache, if: :messages_count_changed?
+
+  #-- Instance Methods
+  def update_chats_cache
+    CHATS_CACHE.set(number, messages_count)
+  end
+
+  def messages_cache_count(number)
+    messages_count = CHATS_CACHE.get(number.to_s)
+    if messages_count.blank?
+      messages_count = self.messages_count
+      CHATS_CACHE.set(number.to_s, messages_count.to_s)
+    end
+    YAML.safe_load(messages_count) if messages_count.present?
+  end
+
   def increment_messages_counter
-    increment!(:messages_count)
-    save!
-    messages_count
+    messages_count = messages_cache_count(self.number)
+    incremented_chats_count = messages_count + 1
+    CHATS_CACHE.set(number.to_s, incremented_chats_count)
+    incremented_chats_count
   end
 
   # Not using locks as it's less likely to conflict

@@ -30,9 +30,9 @@ module Api::V1
       begin
         creation_response = MessageCreationService.create_message(@chat, message_params[:text])
       rescue ActiveRecord::StaleObjectError => e
-        Rails.logger.info "============= Message Version Error =============== "
+        Rails.logger.info '============= Message Version Error =============== '
         Rails.logger.info e
-        Rails.logger.info "============= Message Version Error =============== "
+        Rails.logger.info '============= Message Version Error =============== '
         creation_response = MessageCreationService.create_message(@chat, message_params[:text])
       end
 
@@ -83,11 +83,10 @@ module Api::V1
       hits = []
       if messages.present?
         messages.each do |m|
-          hits << m["_source"]
+          hits << m['_source']
         end
       end
       hits
     end
-
   end
 end

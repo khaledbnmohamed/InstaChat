@@ -45,8 +45,8 @@ services:
     entrypoint: ["/home/instachat/docker-entrypoint.sh"]
     # command: ["bundle", "exec", "rails" , "db:create"]
     # command: ["bundle", "exec", "rails" , "db:migrate"]
-    # command: ["bundle", "exec", "rake" , "elasticsearch:build_index"]
     command: ["bundle", "exec", "rails","server","-b","0.0.0.0","-p","3000"]
+    # command: ["bundle", "exec", "rake" , "elasticsearch:build_index"]
 
   go-app:
     image: golang:1.16.2
