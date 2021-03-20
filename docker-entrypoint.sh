@@ -10,8 +10,9 @@ bundle install
 
 bundle exec rake db:create
 bundle exec rake db:migrate
+bundle exec whenever --update-crontab
 bundle exec rake elasticsearch:build_index
-bundle exec whenever
+
 
 # overcommit --install
 # overcommit --sign

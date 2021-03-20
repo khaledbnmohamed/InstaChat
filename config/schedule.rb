@@ -7,7 +7,11 @@
 #
 # set :output, "/path/to/my/cron_log.log"
 #
-every 1.minute do
+ENV.each_key do |key|
+  env key.to_sym, ENV[key]
+end
+
+every 1.hours do
   puts "#################################################"
   puts "#################################################"
   puts "#################################################"
@@ -18,8 +22,8 @@ every 1.minute do
   puts "#################################################"
   puts "#################################################"
 
-  rake "lazy_sync_cache:sync_applications"
-  rake "lazy_sync_cache:sync_chats"
+  runner "lazy_sync_cache:sync_applications"
+  runner "lazy_sync_cache:sync_chats"
 
 end
 #

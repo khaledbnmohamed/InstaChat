@@ -21,6 +21,7 @@ services:
         APP_USER_ID: ${APP_USER_ID}
     ports:
       - 3000:3000
+    restart: always
     tty: true
     stdin_open: true
     # depends_on:
@@ -45,8 +46,8 @@ services:
     entrypoint: ["/home/instachat/docker-entrypoint.sh"]
     # command: ["bundle", "exec", "rails" , "db:create"]
     # command: ["bundle", "exec", "rails" , "db:migrate"]
+    command: sh cron -f
     command: ["bundle", "exec", "rails","server","-b","0.0.0.0","-p","3000"]
-    # command: ["bundle", "exec", "rake" , "elasticsearch:build_index"]
 
   go-app:
     image: golang:1.16.2
