@@ -8,6 +8,10 @@ default: &default
     url: <%= ENV['DEVELOPMENT_INSTACHAT_REDIS_URL'] %>
     rescue:
       db: <%= ENV['DEVELOPMENT_INSTACHAT_REDIS_DB'] %>
+    applications_redis_cache:
+      db: <%= ENV['DEVELOPMENT_APPLICATIONS_CACHE_REDIS_DB'] %>
+    chats_redis_cache:
+      db: <%= ENV['DEVELOPMENT_CHATS_CACHE_REDIS_DB'] %>
 
 development:
   <<: *default
