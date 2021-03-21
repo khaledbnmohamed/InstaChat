@@ -39,17 +39,17 @@ class Chat < ApplicationRecord
   end
 
   def messages_cache_count(number)
-    messages_count = CHATS_CACHE.get(number.to_s)
-    if messages_count.blank?
-      messages_count = self.messages_count
-      CHATS_CACHE.set(number.to_s, messages_count.to_s)
+    cached_messages_count = CHATS_CACHE.get(number.to_s)
+    if cached_messages_count.blank?
+      cached_messages_count = self.messages_count
+      CHATS_CACHE.set(number.to_s, cached_messages_count.to_s)
     end
-    YAML.safe_load(messages_count) if messages_count.present?
+    cached_messages_count if cached_messages_count.present?
   end
 
   def increment_messages_counter
-    messages_count = messages_cache_count(self.number)
-    incremented_chats_count = messages_count + 1
+    cached_messages_count = messages_cache_count(self.number)
+    incremented_chats_count = cached_messages_count.to_i + 1
     CHATS_CACHE.set(number.to_s, incremented_chats_count)
     incremented_chats_count
   end

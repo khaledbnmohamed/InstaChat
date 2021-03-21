@@ -33,17 +33,17 @@ class Application < ApplicationRecord
   end
 
   def chats_cache_count(number)
-    chats_count = APPLICATIONS_CACHE.get(number.to_s)
-    if chats_count.blank?
-      chats_count = self.chats_count
-      APPLICATIONS_CACHE.set(number.to_s, chats_count.to_s)
+    cached_chats_count = APPLICATIONS_CACHE.get(number.to_s)
+    if cached_chats_count.blank?
+      cached_chats_count = self.chats_count
+      APPLICATIONS_CACHE.set(number.to_s, cached_chats_count)
     end
-    YAML.safe_load(chats_count) if chats_count.present?
+    cached_chats_count if cached_chats_count.present?
   end
 
   def increment_chats_counter
-    chats_count = chats_cache_count(self.number)
-    incremented_chats_count = chats_count + 1
+    cached_chats_count = chats_cache_count(self.number)
+    incremented_chats_count = cached_chats_count.to_i + 1
     APPLICATIONS_CACHE.set(number.to_s, incremented_chats_count)
     incremented_chats_count
   end
